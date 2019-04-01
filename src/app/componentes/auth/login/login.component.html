@@ -1,0 +1,129 @@
+<!--   Modal de Logeo
+https://apptiendabd.firebaseapp.com/deudores-->
+<div class="columns is-desktop" *ngIf="!registrar" >
+  <div class="column " id="tama">
+    <div class="container has-text-centered">
+        <div class="column is-8 is-offset-2 ">
+
+       <header class="modal-card-head">
+         <p class="modal-card-title">Autentificate</p>
+       </header>
+       <section class="modal-card-body has-text-left">
+
+         <div class="field">
+           <label  class="label">Nombre Completo</label>
+           <div class="control">
+             <input list="listauser" [(ngModel)]="usuario"
+                 class="input is-primary buscar inputs"
+                 placeholder="Nombre de Usuarios" type="list">
+             <datalist id="listauser"  *ngFor="let nombre of namelist ">
+               <option value="{{nombre}}"  *ngFor="let nombre of namelist ">{{nombre}}</option>
+             </datalist>
+           </div>
+         </div>
+
+         <div class="field">
+           <label  class="label">Contraseña </label>
+           <div class="control">
+               <input [(ngModel)]="contrasena"
+               type="password" class="input"
+             minlength="4" maxlength="6" required>
+           </div>
+         </div>
+
+         <button class="button is-block is-primary is-large is-fullwidth"
+         (click)="onLogin($event)">Entrar</button>
+
+
+        </section>
+       <footer class="modal-card-foot ">
+         <p class="has-text-grey ">
+                                 <a (click)="registrar=true">Registrate</a> &nbsp;·&nbsp;
+                                 <a href="#">Olvidé mi Contraseña</a> &nbsp;·&nbsp;
+          </p>
+       </footer>
+
+  </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal de Registro-->
+<div class="columns is-desktop" *ngIf="registrar">
+  <div class="column">
+    <div class="container has-text-centered">
+        <div class="column is-8 is-offset-2">
+
+       <header class="modal-card-head">
+         <p class="modal-card-title">Registro de Usuarios</p>
+       </header>
+       <section class="modal-card-body has-text-left">
+
+         <div class="field">
+           <label  class="label">Nombre Completo
+           <i class="fas fa-check-circle" *ngIf="nombre.touched && nombre.valid" ></i>
+           <i class="fas fa-exclamation-circle" *ngIf="nombre.touched && !nombre.valid"></i>
+           </label>
+           <div class="control">
+             <input [(ngModel)]="usuarioNuevo.user" #nombre="ngModel"
+             name="nombre" type="text" class="input"
+             minlength="5" maxlength="40" required>
+             <div class="help" *ngIf="nombre.touched && !nombre.valid" >
+               <div class="help is-danger"  *ngIf="nombre.errors.required"><i class="fas fa-exclamation-circle"></i>Tu Nombre es Importante</div>
+               <div class="help is-danger" *ngIf="nombre.errors.minlength"><i class="fas fa-exclamation-circle"></i>Tu nombre debe contener  almenos 5 caracteres</div>
+             </div>
+           </div>
+         </div>
+
+         <div class="field">
+           <label  class="label">Contraseña
+             <i class="fas fa-check-circle" *ngIf="pas.touched && pas.valid" ></i>
+             <i class="fas fa-exclamation-circle" *ngIf="pas.touched && !pas.valid"></i>
+           </label>
+           <div class="control">
+             <input [(ngModel)]="firstPass"
+             #pas="ngModel"  name="pas"
+             type="password" class="input"
+             minlength="4" maxlength="6" required>
+             <div class="help" *ngIf="pas.touched && !pas.valid" >
+               <div class="help is-danger"  *ngIf="pas.errors.required"><i class="fas fa-exclamation-circle"></i>La Cotrasela es Importante.</div>
+               <div class="help is-danger" *ngIf="pas.errors.minlength"><i class="fas fa-exclamation-circle"></i>Este campo requiere almenos 4 caracteres</div>
+             </div>
+           </div>
+         </div>
+
+         <div class="field">
+           <label  class="label">Repite tu Contraseña
+             <i class="fas fa-check-circle" *ngIf="pass.touched && pass.valid" ></i>
+             <i class="fas fa-exclamation-circle" *ngIf="pass.touched && !pass.valid"></i>
+           </label>
+           <div class="control">
+             <input [(ngModel)]="secondPass"
+             #pass="ngModel"  name="pass"
+             type="password" class="input"
+             minlength="4" maxlength="6" required>
+             <div class="help" *ngIf="pass.dirty" >
+               <div class="help is-danger"  *ngIf="firstPass != secondPass"><i class="fas fa-exclamation-circle"></i>Las Contraseñas no coinciden.</div>
+             </div>
+             <div class="help" *ngIf="pass.touched && !pass.valid" >
+               <div class="help is-danger"  *ngIf="pass.errors.required"><i class="fas fa-exclamation-circle"></i>Es necesario que repitas la contraseña.</div>
+            </div>
+           </div>
+         </div>
+
+         <button  *ngIf="firstPass != secondPass  || firstPass==null || secondPass==null" class="button is-block is-primary is-large is-fullwidth" disabled>Registrar datos</button>
+         <button *ngIf="firstPass === secondPass && firstPass != null && secondPass != null"  class="button is-block is-primary is-large is-fullwidth" (click)="enviarDatos($event, usuarioNuevo)">Registrar datos</button>
+
+
+        </section>
+       <footer class="modal-card-foot ">
+         <p class="has-text-grey ">
+            <a (click)="registrar=false">Ya tengo una cuenta</a> &nbsp;·&nbsp;
+          </p>
+       </footer>
+
+  </div>
+  </div>
+  </div>
+</div>

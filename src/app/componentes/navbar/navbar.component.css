@@ -1,0 +1,32 @@
+
+
+/* Sidebar Styles */
+.navbar, button{
+  background-color:  #00d1b2;
+}
+#title-nav{
+  color: white;
+}
+button{
+  border: 0px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+   transition-duration: 0.4s;
+}
+.navbar-item:hover {
+    background-color: #00d1b0; /* Green */
+    color: white;
+  }
+  strong{
+    color: black;
+  }
+  .fa-bars{
+    color: white;
+  }
+  .fa-times{
+    color: white;
+  }
+  #btn-nav{
+      text-align: right;
+      align-items: right;
+  }
+  

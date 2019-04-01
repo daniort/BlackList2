@@ -1,0 +1,37 @@
+ .is-primary{
+    background-color: #00d1b2;
+ }
+ .is-primary:hover{
+   color: white;
+  background-color: #00d1bf;
+ }
+.fas{
+  margin-right: 3%;
+}
+button{
+  height: 50%;
+  width: 100%;
+  margin-top: 10%;
+}
+button:hover{
+    border-bottom: solid;
+    border-color: white;
+}
+
+input{
+  text-align: left;
+  color: black;
+  }
+input:focus{
+  border-left: 7px solid  #00d1b2;
+  font-size: 15pt;
+  height: 40px;
+}
+
+span:hover{
+background-color: red;
+color: white;
+}
+figure{
+  margin-top: ;
+}

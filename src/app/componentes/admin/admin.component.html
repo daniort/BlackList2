@@ -1,0 +1,40 @@
+
+<div class="container ">
+
+<!-- botones -->
+<div class="columns is-desktop botones" id="titlehero">
+  <section class="hero is-warning ">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          Consola de Administrador
+        </h1>
+        <h2 class="subtitle">
+          Admin
+        </h2>
+      </div>
+    </div>
+    </section>
+</div>
+  <!-- contenido -->
+  <table class="table">
+    <thead class="thead">
+      <tr>
+        <td>#</td>
+        <td>Usuario</td>
+        <td>Permisos</td>
+      </tr>
+    </thead>
+    <tbody><!-- resultados iniciales -->
+      <tr *ngFor="let duda of userritem;let i=index ">
+        <td>{{i}}</td>
+        <td>{{duda.user}}</td>
+        <td>{{duda.estado}} <button class="button is-small is-warning" type="button" name="button" (click)="onChange(duda)">Cambiar</button></td>
+      </tr>
+    </tbody>
+
+
+
+  </table>
+
+  </div>

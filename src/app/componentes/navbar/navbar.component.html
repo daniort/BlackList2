@@ -1,0 +1,50 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a  target="_top" class="navbar-item .title navbar-brand"  id="title-nav" disable  routerLink="/">
+      !Hola <strong> {{  nombre}}</strong>!</a>
+    <!-- esta es la hambuerguesa-->
+    <button  *ngIf="menumobile==false" role="button" class="navbar-burger"
+    aria-label="menu" aria-expanded="false" (click)="onMostrarmenu($event)">
+    <i class="fas fa-bars"></i></button>
+
+    <button  *ngIf="menumobile==true" role="button" class="navbar-burger"
+     aria-label="menu" aria-expanded="false" (click)="onMostrarmenu($event)">
+    <i class="fas fa-times"></i></button>
+
+
+
+  </div>
+
+
+  <div id="navbarBasicExample" class="navbar-menu">
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <button *ngIf="root" type="button"  name="button"  class="navbar-item"  routerLink="/admin"><span class="icon"><i class="fas fa-unlock-alt"></i></span>  Admin    </button>
+            <button type="button"  name="button"  class="navbar-item"  routerLink="/deudores"><span class="icon"><i class="fas fa-list-ul"></i> </span>  Deudores    </button>
+            <button type="button"  name="button"  class="navbar-item"  (click)="brake.next()" ><span class="icon"><i class="fas fa-sign-out-alt"></i> </span> Salir </button>
+  <!--          <button type="button"  name="button"  class="navbar-item"  routerLink="/almacen"><span class="icon"><i class="fas fa-luggage-cart"></i> </span>  Almacén</button>
+            <button type="button"  name="button"  class="navbar-item"  routerLink="/reg"><span class="icon"><i class="fas fa-luggage-cart"></i> </span>  Registro</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div *ngIf="menu" >
+  <div class="navbar-end">
+    <div class="navbar-item">
+      <div class="buttons" id="btn-nav">
+        <button *ngIf="root" type="button"  name="button"  class="navbar-item"  routerLink="/admin"><span class="icon"><i class="fas fa-unlock-alt"></i> </span>  Admin    </button>
+        <button type="button"  name="button"  class="navbar-item"  routerLink="/deudores"><span class="icon"><i class="fas fa-list-ul"></i> </span>  Deudores    </button>
+        <button type="button"  name="button"  class="navbar-item"  (click)="brake.next()" ><span class="icon"><i class="fas fa-sign-out-alt"></i> </span> Salir </button>
+
+
+  <!--           <button type="button"  name="button"  class="navbar-item"  routerLink="/almacen"><span class="icon"><i class="fas fa-luggage-cart"></i> </span>  Almacén</button>
+        <button type="button"  name="button"  class="navbar-item"  routerLink="/reg"><span class="icon"><i class="fas fa-luggage-cart"></i> </span>  Registro</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+</nav>

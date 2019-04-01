@@ -1,0 +1,30 @@
+<div *ngIf="!logeado"class="">
+  <app-login (activar)="onLogear($event)"></app-login>
+</div>
+
+<div *ngIf="logeado"class="">
+  <header>
+  <app-navbar  (brake)="onBrake()" [iduser]="id"></app-navbar>
+  </header>
+  <div class="column container">
+   <router-outlet></router-outlet>
+   </div>
+</div>
+
+
+<!-- modal de confirmacion -->
+<div *ngIf="salir" class="pupConfirmer">
+  <div class="modal-card">
+    <section class="modal-card-body">
+
+      <div class="field">
+              <strong>¿Estas seguro de salir?</strong>
+        </div>
+
+    </section>
+    <footer class="modal-card-foot">
+      <button type="button" name="button"  class="button is-acciones2" (click)="onConfirmer()">Salir</button>
+      <button type="button" name="button" class="button is-active-cancel" (click)="salir=false">Cancelar</button>
+    </footer>
+  </div>
+</div>

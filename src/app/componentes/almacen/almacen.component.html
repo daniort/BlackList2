@@ -1,0 +1,204 @@
+
+<div class="container ">
+
+<!-- botones -->
+<div class="columns botones" >
+  <div class="column is-four-fifths">
+      <input class="input is-primary buscar inputs" [(ngModel)]="searchText" type="text" placeholder="Buscar en Almacén" id="">
+  </div>
+  <div class="column">
+    <button class="button is-primary inputs" (click)="onCreate($event)" type="submit">
+      <i class="fas fa-plus"></i>
+       Agregar Producto</button>
+  </div>
+</div>
+  <!-- contenido -->
+  <div class="is-multiline columns productoitem">
+    <div class="column is-one-quarter-desktop is-one-third-tablet" *ngFor="let product of productoitem;let i=index">
+      <div class="list-item">
+
+        <div class="card">
+          <!-- Cabezera-->
+          <header class="card-header">
+            <p class="card-header-title">
+              {{product.nombre}}
+            </p>
+          </header>
+          <div class="card-image">
+                    <a href="#"><figure class="image is-16by9"><img src="./assets/images/ima.png" id="img_products" alt=""> </figure></a>
+          </div>
+
+          <!-- Contenido-->
+          <div class="card-content">
+            <div class="content">
+              <div class="costo">
+                  <div class="columns">
+                        <p>Precio de Compra: ${{ product.compra }}</p>
+                  </div>
+                  <div class="columns">
+                        <p>Precio de Venta: ${{product.venta}}</p>
+                  </div>
+              </div>
+              <br>
+              <time datetime="2016-1-1"  *ngIf="product.cantidad >= 1 ; else aviso">
+                <strong>{{product.cantidad}}</strong> pzs. Restantes.
+              </time>
+              <ng-template #aviso>
+                <time datetime="2016-1-1">
+                  <strong id="agotado">{{product.cantidad}}</strong> pzs. Restantes.
+                </time>
+              </ng-template>
+          </div>
+
+          </div>
+          <footer class="card-footer" >
+            <a  class="card-link" (click)="onEditProducto($event, product)" id="edit">Modificar</a>
+            <a  class="card-link" (click)="onDeleteProducto($event, product.id)" id="dele">Eliminar</a>
+          </footer>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+<div *ngIf="deleteState" class="pupConfirmer">
+
+  <div class="card content-modal-delete">
+      <header class="card-header">
+        <p class="card-header-title">
+          Eliminar Producto
+        </p>
+        <div class="navbar-end">
+          <span class="icon">
+            <i class="fas fa-times" (click)="onCancel($event)"></i>
+          </span>
+        </div>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          ¿Estas seguro que quieres eliminar este producto?
+          <br>
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a  class="card-link" (click)="onDeleteConfirmer($event)" id="dele">Si, Eliminar</a>
+        <a  class="card-link" (click)="onCancel($event)" id="edit">Cancelar</a>
+      </footer>
+    </div>
+
+</div>
+
+<div *ngIf="editState" class="pupConfirmer">
+
+    <div class="card content-modal-edit">
+        <header class="card-header">
+          <p class="card-header-title">
+            <i class="fas fa-marker"></i>
+            Editar Producto
+          </p>
+          <div class="navbar-end">
+            <span class="icon">
+              <i class="fas fa-times" (click)="onCancel($event)"></i>
+            </span>
+          </div>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <form class="" >
+            <div class="field">
+              <label  class="label">Nombre </label>
+              <div class="control">
+                  <input [(ngModel)]="productoeditar.nombre" #nombre="ngModel" name="nombre"  type="email" class="input"  placeholder="Nombre" value="{{productoeditar.name}}">
+              </div>
+            </div>
+            <div class="field">
+              <label  class="label">Piezas Adquiridas</label>
+              <div class="control">
+                <input [(ngModel)]="productoeditar.cantidad" #cantidad="ngModel" name="cantidad" type="number" class="input"  placeholder="0.00" value="{{productoeditar.cantidad}}">
+              </div>
+            </div>
+
+            <div class="field">
+              <label  class="label">Precio de Compra</label>
+              <div class="control">
+                <input [(ngModel)]="productoeditar.compra" #compra="ngModel" name="compra" type="number" class="input" placeholder="$000.00" value="{{productoeditar.compra}}">
+              </div>
+            </div>
+
+            <div class="field">
+              <label  class="label">Precio de Venta</label>
+              <div class="control">
+                <input [(ngModel)]="productoeditar.venta" #venta="ngModel" name="venta" type="number" class="input" placeholder="$000.00" value="{{productoeditar.venta}}">
+              </div>
+            </div>
+            </form>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <a  class="card-link" (click)="onGuardar($event)" id="edit">Guardar</a>
+          <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
+        </footer>
+      </div>
+
+</div>
+
+
+<div *ngIf="createState" class="pupConfirmer">
+
+    <div class="card content-modal-crea">
+        <header class="card-header">
+          <p class="card-header-title">
+            <i class="fas fa-box-open"></i>
+            Nuevo Producto
+          </p>
+          <div class="navbar-end">
+            <span class="icon">
+              <i class="fas fa-times" (click)="onCancel($event)"></i>
+            </span>
+          </div>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <form class="" >
+            <div class="field">
+              <label  class="label">Nombre </label>
+              <div class="control">
+                  <input
+                  [(ngModel)]="productonuevo.nombre"
+                  #nombre="ngModel" name="nombre"  type="email"
+                  class="input"  placeholder="NutriLeche" >
+              </div>
+            </div>
+            <div class="field">
+              <label  class="label">Piezas Adquiridas</label>
+              <div class="control">
+                <input [(ngModel)]="productonuevo.cantidad" #cantidad="ngModel" name="cantidad" type="number" class="input"  placeholder="0.00">
+              </div>
+            </div>
+
+            <div class="field">
+              <label  class="label">Precio de Compra</label>
+              <div class="control">
+                <input [(ngModel)]="productonuevo.compra" #compra="ngModel" name="compra" type="number" class="input" placeholder="$000.00" >
+              </div>
+            </div>
+
+            <div class="field">
+              <label  class="label">Precio de Venta</label>
+              <div class="control">
+                <input [(ngModel)]="productonuevo.venta" #venta="ngModel" name="venta" type="number" class="input" placeholder="$000.00" >
+              </div>
+            </div>
+            </form>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <a  class="card-link" (click)="onCreateYa($event)" id="edit">Guardar</a>
+          <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
+        </footer>
+      </div>
+
+</div>
+
+</div>

@@ -1,0 +1,26 @@
+.pupConfirmer{
+    background: rgba(0, 0, 0, 0.9);
+   color: #fff;
+   position: absolute;
+   top: 0;
+   left: 0;
+   height: 100vh;
+   width: 100vw;
+   transition: all .5s;
+  }
+  .modal-card{
+    margin-top: 5%;
+    color: black;
+  }
+  .is-active-cancel{
+      border-radius: solid 1px #f5f5f5;
+      border-bottom: solid 2px #ff3860;
+      width: 50%;
+      color: #ff3860;
+  }
+  .is-acciones2{
+    border-radius: solid 0px red;
+    border-bottom: solid 2px  #00d1b2;
+    width: 50%;
+    color: #00d1b2;
+  }
