@@ -30,6 +30,19 @@ productonuevo:ProductoInterface={
       console.log("Arreglo de Productos Obtenidos");
     });
   }
+  onAction(e){
+    switch(e){
+      case "add":
+       console.log("modal de agregar");
+       break;
+      case "edit":
+        console.log("modal de edit");
+      break;
+      case "dele":
+        console.log("modal de eliminar");
+      break;
+    }
+  }
   onEditProducto( event, producto:ProductoInterface){
     console.log("quieres editar");
     this.editState= true;
