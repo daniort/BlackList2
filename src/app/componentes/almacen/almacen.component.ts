@@ -37,8 +37,6 @@ productonuevo:ProductoInterface={
   ngOnInit() {
     this.AlmacenService.getProducts().subscribe(producto =>{
       this.productoitem=producto;
-     console.log(producto);
-      console.log("Arreglo de Productos Obtenidos");
     });
   }
   onUpload(e){
@@ -51,15 +49,13 @@ productonuevo:ProductoInterface={
        task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
   }
 
-
-  onEditProducto( event, producto:ProductoInterface){
+onEditProducto( event, producto:ProductoInterface){
     console.log("quieres editar");
     this.editState= true;
     this.productoeditar=producto;
     console.log(this.productoeditar);
 }
 onDeleteProducto(event, id:string){
-  console.log("quieres eliminar");
   this.deleteState= true;
   this.idToDelete=id;
   }
@@ -72,21 +68,18 @@ onDeleteProducto(event, id:string){
     this.editState=false;
     this.createState=false;
   }
-onGuardar(){
-console.log(this.productoeditar);
-this.AlmacenService.updateProduct(this.productoeditar);
-this.editState= false;
-}
-onCreate(){
- this.createState=true;
-}
-onCreateYa(){
-  //this.productonuevo.storage=document.getElementById(storage).value;
-
-  console.log(this.urlImage);
-  //console.log(document.getElementById(storage).value);
-  this.productonuevo.storage= this.inputImageUser.nativeElement.value;
-  this.AlmacenService.addProduct(this.productonuevo);
-  this.createState=false;
-}
+  onGuardar(){
+    console.log(this.productoeditar);
+    this.AlmacenService.updateProduct(this.productoeditar);
+    this.editState= false;
+  }
+  onCreate(){
+   this.createState=true;
+  }
+  onCreateYa(){
+    console.log(this.urlImage);
+    this.productonuevo.storage=this.inputImageUser.nativeElement.value;
+    this.AlmacenService.addProduct(this.productonuevo);
+    this.createState=false;
+  }
 }

@@ -88,12 +88,13 @@ export class DeudoresComponent implements OnInit {
                             this.namelist=[];
                              }
   ngOnInit() {
-    //console.log(this.id);
+
     this.inicio=true;
-    this.resultadosBitacora=false;
-    this.resultadosPagados=false;
     this.historial=false;
     this.deudaspagadas=false;
+    this.resultadosBitacora=false;
+    this.resultadosPagados=false;
+
     this.DeudaspagadasService.getDeudas().subscribe(deuda =>{
       this.deudoritemPagado=deuda;
     });
