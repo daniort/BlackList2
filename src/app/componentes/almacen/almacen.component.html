@@ -26,7 +26,7 @@
             </p>
           </header>
           <div class="card-image">
-                    <a href="#"><figure class="image is-16by9"><img src="./assets/images/ima.png" id="img_products" alt=""> </figure></a>
+           <figure class="image is-16by9"><img src="{{product.storage}}" id="img_products" alt=""> </figure>
           </div>
 
           <!-- Contenido-->
@@ -231,21 +231,13 @@
 
               <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
                   <ng-template #barten>
-                    <progress  [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
+                    <progress
+                    [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
+
+
                     class="progress is-danger"
-                      role="progressbar" [style.width]="(uploadPercent | async) +'%'">30%</progress>
+                      role="progressbar" [style.width]="(uploadPercent | async)">30</progress>
                  </ng-template>
-
-                 <div class="progress">
-                  <div>
-
-                    <!-- <span class="progressText" *ngIf="urlImage | async">
-                      Ok!!</span> -->
-                  </div>
-                </div>
-
-
-
 
             </form>
           </div>
