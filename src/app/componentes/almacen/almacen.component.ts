@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AlmacenService } from '../../servicios/almacen.service';
 import { ProductoInterface } from '../../interfaces/productointerface';
+import { AngularFireStorage} from '@angular/fire/storage';
+import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-almacen',
@@ -15,14 +18,22 @@ productonuevo:ProductoInterface={
         compra:0,
         cantidad:0,
         venta:0,
+        storage:''
       };
   editState:boolean=false;
   deleteState:boolean=false;
   createState:boolean=false;
   idToDelete:string;
   searchText:string; //eto es para el pipe de busqueda
+  url:string;
+  idfile = Math.random().toString(36).substring(2);
 
-  constructor(public AlmacenService: AlmacenService) { }
+  constructor(public AlmacenService: AlmacenService, private storage: AngularFireStorage) { }
+
+  @ViewChild('imageUser') inputImageUser: ElementRef;
+  uploadPercent: Observable<number>;
+  urlImage: Observable<string>;
+
   ngOnInit() {
     this.AlmacenService.getProducts().subscribe(producto =>{
       this.productoitem=producto;
@@ -30,19 +41,17 @@ productonuevo:ProductoInterface={
       console.log("Arreglo de Productos Obtenidos");
     });
   }
-  onAction(e){
-    switch(e){
-      case "add":
-       console.log("modal de agregar");
-       break;
-      case "edit":
-        console.log("modal de edit");
-      break;
-      case "dele":
-        console.log("modal de eliminar");
-      break;
-    }
+  onUpload(e){
+       const id = Math.random().toString(36).substring(2);
+       const file = e.target.files[0];
+       const filePath = `products/profile_${id}`;
+       const ref = this.storage.ref(filePath);
+       const task = this.storage.upload(filePath, file);
+       this.uploadPercent = task.percentageChanges();
+       task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
   }
+
+
   onEditProducto( event, producto:ProductoInterface){
     console.log("quieres editar");
     this.editState= true;
@@ -72,6 +81,11 @@ onCreate(){
  this.createState=true;
 }
 onCreateYa(){
+  //this.productonuevo.storage=document.getElementById(storage).value;
+
+  console.log(this.urlImage);
+  //console.log(document.getElementById(storage).value);
+  this.productonuevo.storage= this.inputImageUser.nativeElement.value;
   this.AlmacenService.addProduct(this.productonuevo);
   this.createState=false;
 }

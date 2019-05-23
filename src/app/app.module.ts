@@ -7,6 +7,7 @@ import { environment } from '../environments/environment';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule} from 'angularfire2/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage'
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './componentes/navbar/navbar.component';
@@ -53,7 +54,8 @@ const routes: Routes = [
    AngularFirestoreModule,
     FormsModule,
    ReactiveFormsModule,
-   BrowserAnimationsModule
+   BrowserAnimationsModule,
+   AngularFireStorageModule
   ],
   providers: [AlmacenService,HomeService,DeudasService,UserService],
   bootstrap: [AppComponent]

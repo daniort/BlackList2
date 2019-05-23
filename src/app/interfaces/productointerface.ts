@@ -4,4 +4,5 @@ export interface ProductoInterface {
   compra ?: number,
   cantidad ?: number,
   venta ?: number,
+  storage ?: string
 }

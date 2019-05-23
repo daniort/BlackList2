@@ -54,8 +54,10 @@ export class LoginComponent implements OnInit {
   }
   onLogin(){
     let c = this.usuario.toUpperCase();
+    console.log(c);
     let d = this.contrasena.toUpperCase();
     for (let unaUsuario of this.useritem) {
+      console.log(unaUsuario.user);
       if (c === unaUsuario.user) {
           if (d === unaUsuario.pass) {
             if (unaUsuario.estado) {
@@ -75,7 +77,7 @@ export class LoginComponent implements OnInit {
         console.log("usuario no ecnontrado");
         //mensaje de usuario no Registrado
         //console.log(c);
-        //console.log(unaUsuario.user);
+
         //this.userMenssageFail=true;
       }
     }
