@@ -25,7 +25,7 @@ productonuevo:ProductoInterface={
   createState:boolean=false;
   idToDelete:string;
   searchText:string; //eto es para el pipe de busqueda
-  url:string;
+
   idfile = Math.random().toString(36).substring(2);
 
   constructor(public AlmacenService: AlmacenService, private storage: AngularFireStorage) { }
@@ -67,6 +67,9 @@ onDeleteProducto(event, id:string){
     this.deleteState= false;
     this.editState=false;
     this.createState=false;
+
+    this.productoeditar=null;
+    this.productonuevo=null
   }
   onGuardar(){
     console.log(this.productoeditar);
@@ -81,5 +84,7 @@ onDeleteProducto(event, id:string){
     this.productonuevo.storage=this.inputImageUser.nativeElement.value;
     this.AlmacenService.addProduct(this.productonuevo);
     this.createState=false;
+    this.productoeditar=null;
+    this.productonuevo=null
   }
 }

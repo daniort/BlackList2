@@ -92,7 +92,109 @@
 
 <div *ngIf="editState" class="pupConfirmer">
 
-    <div class="card content-modal-edit">
+  <div class="card content-modal-crea">
+      <header class="card-header">
+        <p class="card-header-title">
+          <i class="fas fa-box-open"></i>
+          Editar Producto
+        </p>
+        <div class="navbar-end">
+          <span class="icon">
+            <i class="fas fa-times" (click)="onCancel($event)"></i>
+          </span>
+        </div>
+      </header>
+      <div class="card-content">
+        <div class="content">
+
+          <form class="" >
+
+          <div class="field is-horizontal">
+            <div class="field-body">
+              <div class="field">
+                <p class="control is-expanded has-icons-left">
+                  <label for=""><strong>Nombre del Producto:</strong></label>
+                  <input [(ngModel)]="productoeditar.nombre" #nombre="ngModel" name="nombre"  type="email" class="input"  placeholder="Nombre" value="{{productoeditar.name}}">                </p>
+              </div>
+              <div class="field">
+                <p class="control is-expanded has-icons-left has-icons-right">
+                  <label for=""><strong>Cantidad Adquirida:</strong></label>
+                  <input [(ngModel)]="productoeditar.cantidad" #cantidad="ngModel" name="cantidad" type="number" class="input"  placeholder="0.00" value="{{productoeditar.cantidad}}">
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-body">
+              <div class="field">
+                <p class="control is-expanded has-icons-left">
+                  <label for=""><strong>Precio de Compra</strong></label>
+                  <input [(ngModel)]="productoeditar.compra" #compra="ngModel" name="compra" type="number" class="input" placeholder="$000.00" value="{{productoeditar.compra}}">
+                </p>
+              </div>
+              <div class="field">
+                <p class="control is-expanded has-icons-left has-icons-right">
+                  <label for=""><strong>Precio de Venta</strong></label>
+                  <input [(ngModel)]="productoeditar.venta" #venta="ngModel" name="venta" type="number" class="input" placeholder="$000.00" value="{{productoeditar.venta}}">
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-body">
+              <div class="field">
+                <figure class="image is-128x128">
+                  <img src="{{productoeditar.storage}}">
+                </figure>
+              </div>
+
+              <div class="field">
+                <div class="file is-small">
+                  <label class="file-label">
+                    <input class="file-input" type="file" accept=".png, .jpg" name="resume" (change)="onUpload($event)">
+                    <span class="file-cta">
+                      <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                      </span>
+                      <span class="file-label">
+                        Nuevo Archivo…
+                      </span>
+                    </span>
+                    <input #imageUser type="hidden" [value]="urlImage | async">
+                  </label>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+
+
+
+            <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
+                <ng-template #barten>
+                  <progress
+                  [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
+
+
+                  class="progress is-danger"
+                    role="progressbar" [style.width]="(uploadPercent | async)">30</progress>
+               </ng-template>
+
+          </form>
+
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a  class="card-link" (click)="onGuardar($event)" id="edit">Guardar</a>
+        <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
+      </footer>
+    </div>
+
+    <!-- <div class="card content-modal-edit">
         <header class="card-header">
           <p class="card-header-title">
             <i class="fas fa-marker"></i>
@@ -135,14 +237,11 @@
             </div>
             </form>
           </div>
-        </div>
-        <footer class="card-footer">
-          <a  class="card-link" (click)="onGuardar($event)" id="edit">Guardar</a>
-          <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
-        </footer>
+        </div> -->
+
       </div>
 
-</div>
+
 
 
 <div *ngIf="createState" class="pupConfirmer">
@@ -164,7 +263,7 @@
 
 
 
-            <form class="" >
+            <form>
 
             <div class="field is-horizontal">
               <div class="field-body">
@@ -231,19 +330,18 @@
 
               <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
                   <ng-template #barten>
-                    <progress
-                    [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
-
-
-                    class="progress is-danger"
-                      role="progressbar" [style.width]="(uploadPercent | async)">30</progress>
-                 </ng-template>
-
+                      <progress[style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
+                        class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">
+                      </progress>
+                   </ng-template>
             </form>
           </div>
         </div>
         <footer class="card-footer">
-          <a  class="card-link" (click)="onCreateYa($event)" id="edit">Guardar</a>
+          <button  *ngIf="venta==null || compra==null || nombre ==null || cantidad ==null; else yes" class="card-link" disabled>Guardar</button>
+          <ng-template #yes><button  class="card-link" (click)="onCreateYa($event)">Guardar</button> </ng-template>
+
+          <!--<a  class="card-link" (click)="onCreateYa($event)" id="edit">Guardar</a>-->
           <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
         </footer>
       </div>
