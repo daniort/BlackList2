@@ -1,18 +1,17 @@
 
 <div class="container ">
 
-
-<!-- botones -->
-<div class="columns botones" >
-  <div class="column is-four-fifths">
-      <input class="input is-primary buscar inputs" [(ngModel)]="searchText" type="text" placeholder="Buscar en Almacén" id="">
+  <!-- botones -->
+  <div class="columns botones" >
+    <div class="column is-four-fifths">
+        <input class="input is-primary buscar inputs" [(ngModel)]="searchText" type="text" placeholder="Buscar en Almacén" id="">
+    </div>
+    <div class="column">
+      <button class="button is-primary inputs" (click)="createState=!createState" type="submit">
+        <i class="fas fa-plus"></i>
+         Agregar Producto</button>
+    </div>
   </div>
-  <div class="column">
-    <button class="button is-primary inputs" (click)="createState=!createState" type="submit">
-      <i class="fas fa-plus"></i>
-       Agregar Producto</button>
-  </div>
-</div>
   <!-- contenido -->
   <div class="is-multiline columns productoitem">
     <div class="column is-one-quarter-desktop is-one-third-tablet" *ngFor="let product of productoitem;let i=index">
@@ -61,143 +60,40 @@
       </div>
     </div>
   </div>
+  <!-- Modal Delete -->
+  <div *ngIf="deleteState" class="pupConfirmer">
 
-
-<div *ngIf="deleteState" class="pupConfirmer">
-
-  <div class="card content-modal-delete">
-      <header class="card-header">
-        <p class="card-header-title">
-          Eliminar Producto
-        </p>
-        <div class="navbar-end">
-          <span class="icon">
-            <i class="fas fa-times" (click)="onCancel($event)"></i>
-          </span>
-        </div>
-      </header>
-      <div class="card-content">
-        <div class="content">
-          ¿Estas seguro que quieres eliminar este producto?
-          <br>
-        </div>
-      </div>
-      <footer class="card-footer">
-        <a  class="card-link" (click)="onDeleteConfirmer($event)" id="dele">Si, Eliminar</a>
-        <a  class="card-link" (click)="onCancel($event)" id="edit">Cancelar</a>
-      </footer>
-    </div>
-
-</div>
-
-<div *ngIf="editState" class="pupConfirmer">
-
-  <div class="card content-modal-crea">
-      <header class="card-header">
-        <p class="card-header-title">
-          <i class="fas fa-box-open"></i>
-          Editar Producto
-        </p>
-        <div class="navbar-end">
-          <span class="icon">
-            <i class="fas fa-times" (click)="onCancel($event)"></i>
-          </span>
-        </div>
-      </header>
-      <div class="card-content">
-        <div class="content">
-
-          <form class="" >
-
-          <div class="field is-horizontal">
-            <div class="field-body">
-              <div class="field">
-                <p class="control is-expanded has-icons-left">
-                  <label for=""><strong>Nombre del Producto:</strong></label>
-                  <input [(ngModel)]="productoeditar.nombre" #nombre="ngModel" name="nombre"  type="email" class="input"  placeholder="Nombre" value="{{productoeditar.name}}">                </p>
-              </div>
-              <div class="field">
-                <p class="control is-expanded has-icons-left has-icons-right">
-                  <label for=""><strong>Cantidad Adquirida:</strong></label>
-                  <input [(ngModel)]="productoeditar.cantidad" #cantidad="ngModel" name="cantidad" type="number" class="input"  placeholder="0.00" value="{{productoeditar.cantidad}}">
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="field is-horizontal">
-            <div class="field-body">
-              <div class="field">
-                <p class="control is-expanded has-icons-left">
-                  <label for=""><strong>Precio de Compra</strong></label>
-                  <input [(ngModel)]="productoeditar.compra" #compra="ngModel" name="compra" type="number" class="input" placeholder="$000.00" value="{{productoeditar.compra}}">
-                </p>
-              </div>
-              <div class="field">
-                <p class="control is-expanded has-icons-left has-icons-right">
-                  <label for=""><strong>Precio de Venta</strong></label>
-                  <input [(ngModel)]="productoeditar.venta" #venta="ngModel" name="venta" type="number" class="input" placeholder="$000.00" value="{{productoeditar.venta}}">
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="field is-horizontal">
-            <div class="field-body">
-              <div class="field">
-                <figure class="image is-128x128">
-                  <img src="{{productoeditar.storage}}">
-                </figure>
-              </div>
-
-              <div class="field">
-                <div class="file is-small">
-                  <label class="file-label">
-                    <input class="file-input" type="file" accept=".png, .jpg" name="resume" (change)="onUpload($event)">
-                    <span class="file-cta">
-                      <span class="file-icon">
-                        <i class="fas fa-upload"></i>
-                      </span>
-                      <span class="file-label">
-                        Nuevo Archivo…
-                      </span>
-                    </span>
-                    <input #imageUser type="hidden" [value]="urlImage | async">
-                  </label>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-
-
-
-
-            <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
-                <ng-template #barten>
-                  <progress
-                  [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
-
-
-                  class="progress is-danger"
-                    role="progressbar" [style.width]="(uploadPercent | async)">30</progress>
-               </ng-template>
-
-          </form>
-
-        </div>
-      </div>
-      <footer class="card-footer">
-        <a  class="card-link" (click)="onGuardar($event)" id="edit">Guardar</a>
-        <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
-      </footer>
-    </div>
-
-    <!-- <div class="card content-modal-edit">
+    <div class="card content-modal-delete">
         <header class="card-header">
           <p class="card-header-title">
-            <i class="fas fa-marker"></i>
+            Eliminar Producto
+          </p>
+          <div class="navbar-end">
+            <span class="icon">
+              <i class="fas fa-times" (click)="onCancel($event)"></i>
+            </span>
+          </div>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            ¿Estas seguro que quieres eliminar este producto?
+            <br>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <a  class="card-link" (click)="onDeleteConfirmer($event)" id="dele">Si, Eliminar</a>
+          <a  class="card-link" (click)="onCancel($event)" id="edit">Cancelar</a>
+        </footer>
+      </div>
+
+  </div>
+  <!-- Modal Editar -->
+  <div *ngIf="editState" class="pupConfirmer">
+
+    <div class="card content-modal-crea">
+        <header class="card-header">
+          <p class="card-header-title">
+            <i class="fas fa-box-open"></i>
             Editar Producto
           </p>
           <div class="navbar-end">
@@ -208,79 +104,20 @@
         </header>
         <div class="card-content">
           <div class="content">
+
             <form class="" >
-            <div class="field">
-              <label  class="label">Nombre </label>
-              <div class="control">
-                  <input [(ngModel)]="productoeditar.nombre" #nombre="ngModel" name="nombre"  type="email" class="input"  placeholder="Nombre" value="{{productoeditar.name}}">
-              </div>
-            </div>
-            <div class="field">
-              <label  class="label">Piezas Adquiridas</label>
-              <div class="control">
-                <input [(ngModel)]="productoeditar.cantidad" #cantidad="ngModel" name="cantidad" type="number" class="input"  placeholder="0.00" value="{{productoeditar.cantidad}}">
-              </div>
-            </div>
-
-            <div class="field">
-              <label  class="label">Precio de Compra</label>
-              <div class="control">
-                <input [(ngModel)]="productoeditar.compra" #compra="ngModel" name="compra" type="number" class="input" placeholder="$000.00" value="{{productoeditar.compra}}">
-              </div>
-            </div>
-
-            <div class="field">
-              <label  class="label">Precio de Venta</label>
-              <div class="control">
-                <input [(ngModel)]="productoeditar.venta" #venta="ngModel" name="venta" type="number" class="input" placeholder="$000.00" value="{{productoeditar.venta}}">
-              </div>
-            </div>
-            </form>
-          </div>
-        </div> -->
-
-      </div>
-
-
-
-
-<div *ngIf="createState" class="pupConfirmer">
-
-    <div class="card content-modal-crea">
-        <header class="card-header">
-          <p class="card-header-title">
-            <i class="fas fa-box-open"></i>
-            Nuevo Producto
-          </p>
-          <div class="navbar-end">
-            <span class="icon">
-              <i class="fas fa-times" (click)="onCancel($event)"></i>
-            </span>
-          </div>
-        </header>
-        <div class="card-content">
-          <div class="content">
-
-
-
-            <form>
 
             <div class="field is-horizontal">
               <div class="field-body">
                 <div class="field">
                   <p class="control is-expanded has-icons-left">
                     <label for=""><strong>Nombre del Producto:</strong></label>
-                    <input class="input" [(ngModel)]="productonuevo.nombre"
-                      #nombre="ngModel" name="nombre"  type="text"
-                      class="input"  placeholder="NutriLeche" >
-                  </p>
+                    <input [(ngModel)]="productoeditar.nombre" #nombre="ngModel" name="nombre"  type="email" class="input"  placeholder="Nombre" value="{{productoeditar.name}}">                </p>
                 </div>
                 <div class="field">
                   <p class="control is-expanded has-icons-left has-icons-right">
                     <label for=""><strong>Cantidad Adquirida:</strong></label>
-                    <input class="input is-success"
-                    [(ngModel)]="productonuevo.cantidad" #cantidad="ngModel" name="cantidad"
-                    type="number" class="input"  placeholder="0">
+                    <input [(ngModel)]="productoeditar.cantidad" #cantidad="ngModel" name="cantidad" type="number" class="input"  placeholder="0.00" value="{{productoeditar.cantidad}}">
                   </p>
                 </div>
               </div>
@@ -291,61 +128,238 @@
                 <div class="field">
                   <p class="control is-expanded has-icons-left">
                     <label for=""><strong>Precio de Compra</strong></label>
-                    <input class="input" type="number" placeholder="Precio Compra"
-                    [(ngModel)]="productonuevo.compra" #compra="ngModel" name="compra" >
+                    <input [(ngModel)]="productoeditar.compra" #compra="ngModel" name="compra" type="number" class="input" placeholder="$000.00" value="{{productoeditar.compra}}">
                   </p>
                 </div>
                 <div class="field">
                   <p class="control is-expanded has-icons-left has-icons-right">
                     <label for=""><strong>Precio de Venta</strong></label>
-                    <input class="input is-success" type="number" placeholder="Precio Venta"
-                    [(ngModel)]="productonuevo.venta" #venta="ngModel" name="venta">
+                    <input [(ngModel)]="productoeditar.venta" #venta="ngModel" name="venta" type="number" class="input" placeholder="$000.00" value="{{productoeditar.venta}}">
                   </p>
                 </div>
               </div>
             </div>
 
-            <div class="field">
-              <label  class="label">Imagen del Prodcuto</label>
-              <div class="control">
-                <div class="file has-name">
-                  <label class="file-label">
-                     <input class="file-input" type="file" accept=".png, .jpg" name="resume" (change)="onUpload($event)">
-                     <span class="file-cta">
-                       <span class="file-icon">
-                         <i class="fas fa-upload"></i>
-                       </span>
-                       <span class="file-label">
-                        Selecciona Archivo
-                       </span>
-                     </span>
-                     <input #imageUser type="hidden" [value]="urlImage | async">
-                   </label><br>
-
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field">
+                  <figure class="image is-128x128">
+                    <img src="{{productoeditar.storage}}">
+                  </figure>
                 </div>
+
+                <div class="field">
+                  <div class="file is-small">
+                    <label class="file-label">
+                      <input class="file-input" type="file" accept=".png, .jpg" name="resume" (change)="onUpload($event)">
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          Nuevo Archivo…
+                        </span>
+                      </span>
+                      <input #imageUser type="hidden" [value]="urlImage | async">
+                    </label>
+                  </div>
+                </div>
+
 
               </div>
             </div>
 
 
+
+
               <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
                   <ng-template #barten>
-                      <progress[style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
-                        class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">
-                      </progress>
-                   </ng-template>
+                    <progress
+                    [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
+
+
+                    class="progress is-danger"
+                      role="progressbar" [style.width]="(uploadPercent | async)">30</progress>
+                 </ng-template>
+
             </form>
+
           </div>
         </div>
         <footer class="card-footer">
-          <button  *ngIf="venta==null || compra==null || nombre ==null || cantidad ==null; else yes" class="card-link" disabled>Guardar</button>
-          <ng-template #yes><button  class="card-link" (click)="onCreateYa($event)">Guardar</button> </ng-template>
-
-          <!--<a  class="card-link" (click)="onCreateYa($event)" id="edit">Guardar</a>-->
+          <a  class="card-link" (click)="onGuardar($event)" id="edit">Guardar</a>
           <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
         </footer>
       </div>
 
-</div>
+      <!-- <div class="card content-modal-edit">
+          <header class="card-header">
+            <p class="card-header-title">
+              <i class="fas fa-marker"></i>
+              Editar Producto
+            </p>
+            <div class="navbar-end">
+              <span class="icon">
+                <i class="fas fa-times" (click)="onCancel($event)"></i>
+              </span>
+            </div>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <form class="" >
+              <div class="field">
+                <label  class="label">Nombre </label>
+                <div class="control">
+                    <input [(ngModel)]="productoeditar.nombre" #nombre="ngModel" name="nombre"  type="email" class="input"  placeholder="Nombre" value="{{productoeditar.name}}">
+                </div>
+              </div>
+              <div class="field">
+                <label  class="label">Piezas Adquiridas</label>
+                <div class="control">
+                  <input [(ngModel)]="productoeditar.cantidad" #cantidad="ngModel" name="cantidad" type="number" class="input"  placeholder="0.00" value="{{productoeditar.cantidad}}">
+                </div>
+              </div>
+
+              <div class="field">
+                <label  class="label">Precio de Compra</label>
+                <div class="control">
+                  <input [(ngModel)]="productoeditar.compra" #compra="ngModel" name="compra" type="number" class="input" placeholder="$000.00" value="{{productoeditar.compra}}">
+                </div>
+              </div>
+
+              <div class="field">
+                <label  class="label">Precio de Venta</label>
+                <div class="control">
+                  <input [(ngModel)]="productoeditar.venta" #venta="ngModel" name="venta" type="number" class="input" placeholder="$000.00" value="{{productoeditar.venta}}">
+                </div>
+              </div>
+              </form>
+            </div>
+          </div> -->
+
+  </div>
+  <!-- Modal Crear -->
+  <div *ngIf="createState" class="pupConfirmer">
+
+      <div class="card content-modal-crea"">
+
+          <header class="card-header">
+            <p class="card-header-title">
+              Nuevo Producto
+            </p>
+            <a href="#" class="card-header-icon" aria-label="more options">
+              <span class="icon">
+                  <i class="fas fa-times" (click)="onCancel($event)"></i>
+              </span>
+            </a>
+          </header>
+
+          <div class="card-content">
+            <div class="content">
+
+              <form>
+
+                <div class="field is-horizontal">
+                  <div class="field-body">
+
+                    <div class="field">
+                      <p class="control is-expanded has-icons-left">
+                        <label for=""><strong>Nombre del Producto:</strong></label>
+                        <input class="input" [(ngModel)]="productonuevo.nombre"
+                          #nombre="ngModel" name="nombre"  type="text"
+                          class="input"  placeholder="NutriLeche"
+                          minlength="1" maxlength="40">
+                      </p>
+                    </div>
+
+                    <div class="field">
+                      <p class="control is-expanded has-icons-left has-icons-right">
+                        <label for=""><strong>Cantidad Adquirida:</strong></label>
+                        <input class="input is-success"
+                        [(ngModel)]="productonuevo.cantidad" #cantidad="ngModel" name="cantidad"
+                        type="number" class="input"  placeholder="0"  minlength="1" maxlength="5">
+                      </p>
+                      <div class="help" *ngIf="cantidad.touched && !cantidad.valid">
+                        <div class="help is-danger" *ngIf="productonuevo.cantidad <= 0"><i class="fas fa-exclamation-circle"></i>Este Campo es Obligatorio.</div>
+                        <div class="help is-warning" *ngIf="productonuevo.cantidad > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="field is-horizontal">
+                  <div class="field-body">
+                    <div class="field">
+                      <p class="control is-expanded has-icons-left">
+                        <label for=""><strong>Precio de Compra</strong></label>
+                        <input class="input" type="number" placeholder="Precio Compra"
+                        [(ngModel)]="productonuevo.compra" #compra="ngModel" name="compra"
+                         minlength="1" maxlength="5">
+                      </p>
+                      <div class="help" *ngIf="compra.touched && !compra.valid">
+                        <div class="help is-danger" *ngIf="productonuevo.compra < 1"><i class="fas fa-exclamation-circle"></i>Este Campo es Obligatorio.</div>
+                        <div class="help is-warning" *ngIf="productonuevo.compra > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
+                       </div>
+                    </div>
+                    <div class="field">
+                      <p class="control is-expanded has-icons-left has-icons-right">
+                        <label for=""><strong>Precio de Venta</strong></label>
+                        <input class="input is-success" type="number" placeholder="Precio Venta"
+                        [(ngModel)]="productonuevo.venta" #venta="ngModel" name="venta"
+                         minlength="1" maxlength="5">
+                      </p>
+                      <div class="help" *ngIf="venta.touched && !venta.valid">
+                        <div class="help is-danger" *ngIf="productonuevo.venta <= productonuevo.compra"><i class="fas fa-exclamation-circle"></i>Este Campo debe ser mayor al Precio de Compra.</div>
+                        <div class="help is-warning" *ngIf="productonuevo.venta > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label  class="label">Imagen del Prodcuto</label>
+                  <div class="control">
+                    <div class="file has-name">
+                      <label class="file-label">
+                         <input class="file-input" type="file" accept=".png, .jpg" name="resume" (change)="onUpload($event)">
+                         <span class="file-cta">
+                           <span class="file-icon">
+                             <i class="fas fa-upload"></i>
+                           </span>
+                           <span class="file-label">
+                            Selecciona Archivo
+                           </span>
+                         </span>
+                         <input #imageUser type="hidden" [value]="urlImage | async">
+                       </label><br>
+                    </div>
+                  </div>
+                <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
+                <ng-template #barten>
+                  <progress [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
+                    class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">
+                  </progress>
+                </ng-template>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+
+          <footer class="card-footer">
+            <!-- Boton Disabled-->
+            <a  class="card-link" id="editdisable"
+            *ngIf="!cantidad.valid  || !venta.valid || !compra.valid" disabled>Guardar</a>
+            <!-- Boton Active-->
+            <a  class="card-link" (click)="onCreateYa($event)" id="edit"
+            *ngIf="cantidad.valid  && venta.valid && compra.valid">Guardar</a>
+            <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
+          </footer>
+
+        </div>
+
+  </div>
 
 </div>
