@@ -89,7 +89,6 @@
   </div>
   <!-- Modal Editar -->
   <div *ngIf="editState" class="pupConfirmer">
-
     <div class="card content-modal-crea">
         <header class="card-header">
           <p class="card-header-title">
@@ -174,12 +173,8 @@
 
               <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
                   <ng-template #barten>
-                    <progress
-                    [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
-
-
-                    class="progress is-danger"
-                      role="progressbar" [style.width]="(uploadPercent | async)">30</progress>
+                    <progress [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
+                    class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">30</progress>
                  </ng-template>
 
             </form>
@@ -190,53 +185,7 @@
           <a  class="card-link" (click)="onGuardar($event)" id="edit">Guardar</a>
           <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
         </footer>
-      </div>
-
-      <!-- <div class="card content-modal-edit">
-          <header class="card-header">
-            <p class="card-header-title">
-              <i class="fas fa-marker"></i>
-              Editar Producto
-            </p>
-            <div class="navbar-end">
-              <span class="icon">
-                <i class="fas fa-times" (click)="onCancel($event)"></i>
-              </span>
-            </div>
-          </header>
-          <div class="card-content">
-            <div class="content">
-              <form class="" >
-              <div class="field">
-                <label  class="label">Nombre </label>
-                <div class="control">
-                    <input [(ngModel)]="productoeditar.nombre" #nombre="ngModel" name="nombre"  type="email" class="input"  placeholder="Nombre" value="{{productoeditar.name}}">
-                </div>
-              </div>
-              <div class="field">
-                <label  class="label">Piezas Adquiridas</label>
-                <div class="control">
-                  <input [(ngModel)]="productoeditar.cantidad" #cantidad="ngModel" name="cantidad" type="number" class="input"  placeholder="0.00" value="{{productoeditar.cantidad}}">
-                </div>
-              </div>
-
-              <div class="field">
-                <label  class="label">Precio de Compra</label>
-                <div class="control">
-                  <input [(ngModel)]="productoeditar.compra" #compra="ngModel" name="compra" type="number" class="input" placeholder="$000.00" value="{{productoeditar.compra}}">
-                </div>
-              </div>
-
-              <div class="field">
-                <label  class="label">Precio de Venta</label>
-                <div class="control">
-                  <input [(ngModel)]="productoeditar.venta" #venta="ngModel" name="venta" type="number" class="input" placeholder="$000.00" value="{{productoeditar.venta}}">
-                </div>
-              </div>
-              </form>
-            </div>
-          </div> -->
-
+    </div>
   </div>
   <!-- Modal Crear -->
   <div *ngIf="createState" class="pupConfirmer">
@@ -256,7 +205,6 @@
 
           <div class="card-content">
             <div class="content">
-
               <form>
 
                 <div class="field is-horizontal">
@@ -317,8 +265,39 @@
                   </div>
                 </div>
 
+                <div class="field is-horizontal">
+                  <div class="field-body">
+                    <div class="field">
+                     <label  class="label">Imagen del Prodcuto</label>
+                      <div class="control">
+                        <div class="file has-name">
+                          <label class="file-label">
+                             <input class="file-input" type="file" accept=".png, .jpg" name="resume" (change)="onUpload($event)">
+                             <span class="file-cta">
+                               <span class="file-icon">
+                                 <i class="fas fa-upload"></i>
+                               </span>
+                               <span class="file-label">
+                                Selecciona Archivo
+                               </span>
+                             </span>
+                             <input #imageUser type="hidden" [value]="urlImage | async">
+                           </label><br>
+                        </div>
+                      </div>
+                    <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
+                    <ng-template #barten>
+                      <progress [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
+                        class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">
+                      </progress>
+                    </ng-template>
+                    </div>
+                  </div>
+                </div>
+
+
                 <div class="field">
-                  <label  class="label">Imagen del Prodcuto</label>
+                 <label  class="label">Imagen del Prodcuto</label>
                   <div class="control">
                     <div class="file has-name">
                       <label class="file-label">
@@ -344,14 +323,13 @@
                 </div>
 
               </form>
-
             </div>
           </div>
 
           <footer class="card-footer">
             <!-- Boton Disabled-->
             <a  class="card-link" id="editdisable"
-            *ngIf="!cantidad.valid  || !venta.valid || !compra.valid" disabled>Guardar</a>
+            *ngIf="!cantidad.valid" disabled>Guardar</a>
             <!-- Boton Active-->
             <a  class="card-link" (click)="onCreateYa($event)" id="edit"
             *ngIf="cantidad.valid  && venta.valid && compra.valid">Guardar</a>
@@ -359,7 +337,6 @@
           </footer>
 
         </div>
-
   </div>
 
 </div>
