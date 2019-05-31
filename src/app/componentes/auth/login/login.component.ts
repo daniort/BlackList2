@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
 
           }else{
             //this.passMenssageFail=true;
-            console.log("pass incorrecta ");
+            console.log("password incorrecto ");
           }
       }else{
         console.log("usuario no ecnontrado");
