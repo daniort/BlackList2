@@ -13,9 +13,6 @@ a{
   border-color:  #00d1b2;
   color:  #00d1b2;
 }
-#editdisable:hover{
-
-}
 #dele:hover{
   border-bottom: solid 2px;
   border-color: red;
@@ -60,7 +57,7 @@ a{
   }
   .content-modal-crea{
     width: 40%;
-    height: 50%;
+    height: 70%;
     position: absolute;
     top: 0;
     left: 0;
