@@ -225,7 +225,8 @@
                         <label for=""><strong>Cantidad Adquirida:</strong></label>
                         <input class="input is-success"
                         [(ngModel)]="productonuevo.cantidad" #cantidad="ngModel" name="cantidad"
-                        type="number" class="input"  placeholder="0"  minlength="1" maxlength="5">
+                        type="number" class="input"  placeholder="0"  
+                        minlength="1" maxlength="5" required>
                       </p>
                       <div class="help" *ngIf="cantidad.touched && !cantidad.valid">
                         <div class="help is-danger" *ngIf="productonuevo.cantidad <= 0"><i class="fas fa-exclamation-circle"></i>Este Campo es Obligatorio.</div>
@@ -302,10 +303,10 @@
           <footer class="card-footer">
             <!-- Boton Disabled-->
             <a  class="card-link" id="editdisable"
-            *ngIf="!cantidad.valid" disabled>Guardar</a>
+            *ngIf="!cantidad.valid || !venta.valid" disabled>Guardar</a>
             <!-- Boton Active-->
             <a  class="card-link" (click)="onCreateYa($event)" id="edit"
-            *ngIf="cantidad.valid  && venta.valid && compra.valid">Guardar</a>
+            *ngIf="cantidad.valid ">Guardar</a>
             <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
           </footer>
 
