@@ -11,6 +11,7 @@ import { Observable } from 'rxjs/internal/Observable';
   styleUrls: ['./almacen.component.css']
 })
 export class AlmacenComponent implements OnInit {
+
 productoitem: ProductoInterface[];
 productoeditar:ProductoInterface;
 productonuevo:ProductoInterface={
@@ -23,22 +24,28 @@ productonuevo:ProductoInterface={
   editState:boolean=false;
   deleteState:boolean=false;
   createState:boolean=false;
+  load_new_file:boolean;
   idToDelete:string;
   searchText:string; //eto es para el pipe de busqueda
 
   idfile = Math.random().toString(36).substring(2);
 
-  constructor(public AlmacenService: AlmacenService, private storage: AngularFireStorage) { }
+
+  constructor(public AlmacenService: AlmacenService,
+              private storage: AngularFireStorage) {
+  }
 
   @ViewChild('imageUser') inputImageUser: ElementRef;
   uploadPercent: Observable<number>;
   urlImage: Observable<string>;
 
   ngOnInit() {
+    this.load_new_file=null;
     this.AlmacenService.getProducts().subscribe(producto =>{
       this.productoitem=producto;
     });
   }
+
   onUpload(e){
        const id = Math.random().toString(36).substring(2);
        const file = e.target.files[0];
@@ -48,14 +55,16 @@ productonuevo:ProductoInterface={
        this.uploadPercent = task.percentageChanges();
        task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
   }
-
-onEditProducto( event, producto:ProductoInterface){
+  onEditProducto( event, producto:ProductoInterface){
     console.log("quieres editar");
-    this.editState= true;
+
+    this.urlImage=null;
     this.productoeditar=producto;
     console.log(this.productoeditar);
+    console.log(this.urlImage);
+    this.editState= true;
 }
-onDeleteProducto(event, id:string){
+  onDeleteProducto(event, id:string){
   this.deleteState= true;
   this.idToDelete=id;
   }
@@ -69,10 +78,15 @@ onDeleteProducto(event, id:string){
     this.createState=false;
 
     this.productoeditar=null;
-    this.productonuevo=null
+    this.productonuevo=null,
+    this.load_new_file=null;
+    this.urlImage=null;
   }
   onGuardar(){
     console.log(this.productoeditar);
+    if(this.load_new_file){
+      this.productoeditar.storage=this.inputImageUser.nativeElement.value;
+    }
     this.AlmacenService.updateProduct(this.productoeditar);
     this.editState= false;
   }
@@ -85,6 +99,7 @@ onDeleteProducto(event, id:string){
     this.AlmacenService.addProduct(this.productonuevo);
     this.createState=false;
     this.productoeditar=null;
-    this.productonuevo=null
+    this.productonuevo=null;
+    this.urlImage=null;
   }
 }
