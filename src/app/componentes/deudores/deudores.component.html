@@ -561,12 +561,14 @@
 
     <!--crear deuda -->
     <div *ngIf="crearState" class="pupConfirmer">
-       <!--crear deuda -->
           <div class="modal-card">
+
             <header class="modal-card-head">
-              <p class="modal-card-title"> <i class="fas fa-credit-card"></i>Nuevo Credito</p>
+              <p class="modal-card-title">
+              <i class="fas fa-credit-card"></i>Nuevo Credito</p>
               <button class="delete" aria-label="close" (click)="onCancel($event)"></button>
             </header>
+
             <section class="modal-card-body">
 
               <div class="field">
@@ -617,9 +619,6 @@
                 </div>
               </div>
 
-
-
-
               <div class="field">
                 <label  class="label">Nota Extra</label>
                 <div class="control">
@@ -629,6 +628,7 @@
                   </div>
                 </div>
               </div>
+
             </section>
             <footer class="modal-card-foot">
 
