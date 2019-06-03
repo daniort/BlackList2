@@ -346,7 +346,7 @@
   <!-- Modal Crear -->
   <div *ngIf="createState" class="pupConfirmer">
 
-      <div class="card content-modal-crea">
+      <div class="card content-modal-crea"">
 
           <header class="card-header">
             <p class="card-header-title">
@@ -450,6 +450,33 @@
                     </ng-template>
                     </div>
                   </div>
+                </div>
+
+
+                <div class="field">
+                 <label  class="label">Imagen del Prodcuto</label>
+                  <div class="control">
+                    <div class="file has-name">
+                      <label class="file-label">
+                         <input class="file-input" type="file" accept=".png, .jpg" name="resume" (change)="onUpload($event)">
+                         <span class="file-cta">
+                           <span class="file-icon">
+                             <i class="fas fa-upload"></i>
+                           </span>
+                           <span class="file-label">
+                            Selecciona Archivo
+                           </span>
+                         </span>
+                         <input #imageUser type="hidden" [value]="urlImage | async">
+                       </label><br>
+                    </div>
+                  </div>
+                <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
+                <ng-template #barten>
+                  <progress [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
+                    class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">
+                  </progress>
+                </ng-template>
                 </div>
 
               </form>
