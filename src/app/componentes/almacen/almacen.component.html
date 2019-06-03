@@ -1,24 +1,12 @@
 
 <div class="container ">
 
-<<<<<<< HEAD
-  <!-- botones -->
-  <div class="columns botones" >
-    <div class="column is-four-fifths">
-        <input class="input is-primary buscar inputs" [(ngModel)]="searchText" type="text" placeholder="Buscar en Almacén" id="">
-    </div>
-    <div class="column">
-      <button class="button is-primary inputs" (click)="createState=!createState" type="submit">
-        <i class="fas fa-plus"></i>
-         Agregar Produc</button>
-    </div>
 =======
 
 <!-- botones -->
 <div class="columns botones" >
   <div class="column is-four-fifths">
       <input class="input is-primary buscar inputs" [(ngModel)]="searchText" type="text" placeholder="Buscar en Almacén" id="">
->>>>>>> parent of 8dcbefb... Validadcion Form
   </div>
   <div class="column">
     <button class="button is-primary inputs" (click)="createState=!createState" type="submit">
@@ -258,8 +246,6 @@
   </div>
   <!-- Modal Editar -->
   <div *ngIf="editState" class="pupConfirmer">
-=======
-
 
 
 <div *ngIf="createState" class="pupConfirmer">
@@ -279,9 +265,6 @@
         </header>
         <div class="card-content">
           <div class="content">
-
-
-
             <form>
 
             <div class="field is-horizontal">
@@ -346,19 +329,6 @@
               </div>
             </div>
 
-
-              <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
-                  <ng-template #barten>
-<<<<<<< HEAD
-                    <progress [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
-                    class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">30</progress>
-                 </ng-template>
-
-=======
-                      <progress[style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
-                        class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">
-                      </progress>
-                   </ng-template>
 >>>>>>> parent of 8dcbefb... Validadcion Form
             </form>
           </div>
@@ -411,7 +381,7 @@
                         <label for=""><strong>Cantidad Adquirida:</strong></label>
                         <input class="input is-success"
                         [(ngModel)]="productonuevo.cantidad" #cantidad="ngModel" name="cantidad"
-                        type="number" class="input"  placeholder="0"  
+                        type="number" class="input"  placeholder="0"
                         minlength="1" maxlength="5" required>
                       </p>
                       <div class="help" *ngIf="cantidad.touched && !cantidad.valid">
