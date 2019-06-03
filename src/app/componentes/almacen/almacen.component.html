@@ -1,11 +1,19 @@
 <div class="container ">
 
   <!-- botones -->
-  <div class="columns botones" >
-    <div class="column is-four-fifths">
-        <input class="input is-primary buscar inputs" [(ngModel)]="searchText" type="text" placeholder="Buscar en Almacén" id="">
+  <div class="columns  is-gapless botones" >
+    <div class="column is-three-quarters form-group">
+    <div *ngIf="inicio" [formGroup]="myForm">
+        <input  list="listacolores" formControlName="buscar"
+          class="input is-primary buscar inputs" placeholder="Buscar Producto en la Lista">
+
+              <datalist id="listacolores"  *ngFor="let nombre of namelist ">
+                <option value="{{nombre}}"  *ngFor="let nombre of namelist ">{{nombre}}</option>
+              </datalist>
     </div>
-    <div class="column">
+    </div>
+
+    <div class="column" id="bnt_new_pro">
       <button class="button is-primary inputs" (click)="createState=!createState" type="submit">
         <i class="fas fa-plus"></i>
          Agregar Producto</button>
@@ -181,21 +189,19 @@
             </div>
         </section>
         <footer class="modal-card-foot">
-
+          <section id="bnt" *ngIf="!load_new_file">
             <a class="card-link" (click)="onGuardar($event)" id="edit"
-              *ngIf="!load_new_file && cantidad.valid &&  venta.valid && compra.valid
-              && productoeditar.cantidad >= 0 && productoeditar.compra >= 0
-              && productoeditar.venta > productoeditar.compra; else note ">Guardar</a>
+              *ngIf="cantidad.valid  && venta.valid && compra.valid && productoeditar.cantidad >= 0 && productoeditar.compra >= 0 && productoeditar.venta > productoeditar.compra; else ncarga ">Guardar</a>
+          </section>
+          <section *ngIf="load_new_file">
+            <section id="bnt" *ngIf="urlImage;else ncarga">
+              <a  class="card-link" (click)="onGuardar($event)" id="edit"
+                *ngIf="cantidad.valid  && venta.valid && compra.valid && productoeditar.cantidad >= 0  && productoeditar.compra >= 0 && productoeditar.venta > productoeditar.compra; else ncarga ">Guardar</a>
+            </section>
+          </section>
 
-            <a  class="card-link" (click)="onGuardar($event)" id="edit2"
-              *ngIf="load_new_file && cantidad.valid  && venta.valid && compra.valid && productoeditar.cantidad >= 0
-              && productoeditar.compra >= 0 && productoeditar.venta > productoeditar.compra
-              && urlImage;else note ">Guardar</a>
-
-
-
-          <ng-template #note id="note">
-            <a class="card-link" disable id="dis">Guardar</a>
+          <ng-template #ncarga>
+            <a class="card-link" disable id="edit">Guardar</a>
           </ng-template>
           <a class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
         </footer>
