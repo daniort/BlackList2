@@ -32,15 +32,14 @@ productonuevo:ProductoInterface={
   searchText:string; //eto es para el pipe de busqueda
 
   idfile = Math.random().toString(36).substring(2);
-    inicio:boolean;
-      namelist:string[];
-      filtroActive:boolean=null;
-      filtroVacio:boolean=null;
-      productoitemFilter:ProductoInterface[];
-
-      resultadosIguales:boolean;
-myForm: FormGroup;
-progreso:number=20;
+  inicio:boolean;
+  namelist:string[];
+  filtroActive:boolean=null;
+  filtroVacio:boolean=null;
+  productoitemFilter:ProductoInterface[];
+  resultadosIguales:boolean;
+  myForm: FormGroup;
+  progreso:number=20;
 
   constructor(public AlmacenService: AlmacenService,
               private storage: AngularFireStorage,
@@ -55,8 +54,6 @@ progreso:number=20;
   ngOnInit() {
 
     this.inicio=true;
-    this.load_new_file=null;
-    this.urlImage=null;
     this.AlmacenService.getProducts().subscribe(producto =>{
       this.productoitem=producto;
       for (let unaDeuda of this.productoitem) {
@@ -190,10 +187,9 @@ progreso:number=20;
     console.log(this.urlImage);
     this.createState=false;
     this.productoeditar=null;
-    this.productonuevo=null;
-    this.urlImage=null;
-    this.load_new_file=null;
+    //this.productonuevo=null;
     this.productonuevo.storage=this.inputImageUser.nativeElement.value;
     this.AlmacenService.addProduct(this.productonuevo);
+    this.onCancel();
   }
 }

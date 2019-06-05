@@ -387,10 +387,6 @@
           </section>
 
           <footer class="modal-card-foot">
-            <!-- Boton Active-->
-=======
-          <footer class="modal-card-foot">
-            <!-- Boton Active-->
             <a  class=" is-acciones card-link" (click)="onCreateYa($event)"
             *ngIf="cantidad.valid  && venta.valid && compra.valid && productonuevo.venta > productonuevo.compra
             && urlImage | async; else bno" id="edit">Guardar</a>
@@ -398,9 +394,8 @@
               <!-- Boton Disabled-->
               <a  class="is-disable card-link"  disabled>Guardar</a>
             </ng-template>
-            <!-- Boton Cancel-->
             <a  class=" is-active-cancel card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
-          </footer>
+            </footer>
 
         </div>
   </div>
