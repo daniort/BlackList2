@@ -245,7 +245,7 @@
                   </div>
                 <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
                 <p  *ngIf="load_new_file && !urlImage" >Subiendo Archivo...</p>
-                <progress *ngIf="load_new_file && !urlImage" class="progress is-primary" max="100">0%</progress>
+                <progress *ngIf="load_new_file && !urlImage" max="100">0%</progress>
                 <ng-template #barten>
                   <progress [style.visibility]="(uploadPercent == 0)"
                     class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">
@@ -362,7 +362,7 @@
                         <div class="file has-name">
                           <label class="file-label">
                              <input class="file-input" type="file" accept=".png, .jpg" name="resume" (change)="onUpload($event)">
-                             <span class="file-cta">
+                             <span (click)="up_file=true"class="file-cta">
                                <span class="file-icon">
                                  <i class="fas fa-upload"></i>
                                </span>
@@ -371,10 +371,12 @@
                                </span>
                              </span>
                              <input #imageUser type="hidden" [value]="urlImage | async">
+                             <p *ngIf="up_file &&!urlImage">Subiendo Archivo...</p>
                            </label><br>
                         </div>
                       </div>
                     <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
+                    <progress *ngIf="up_file &&!urlImage" max="100">0%</progress>
                     <ng-template #barten>
                       <progress [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
                         class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">
@@ -392,7 +394,8 @@
             && urlImage | async; else bno" id="edit">Guardar</a>
             <ng-template #bno>
               <!-- Boton Disabled-->
-              <a  class="is-disable card-link"  disabled>Guardar</a>
+              <a class="is-disable card-link" disabled>Guardar</a>
+              <!--<a class="button is-loading">Loading</a> -->
             </ng-template>
             <a  class=" is-active-cancel card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
             </footer>

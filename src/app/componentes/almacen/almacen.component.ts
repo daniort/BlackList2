@@ -38,6 +38,7 @@ productonuevo:ProductoInterface={
   filtroVacio:boolean=null;
   productoitemFilter:ProductoInterface[];
   resultadosIguales:boolean;
+  up_file:boolean=false;
   myForm: FormGroup;
   progreso:number=20;
 
@@ -165,11 +166,13 @@ productonuevo:ProductoInterface={
     this.deleteState= false;
     this.editState=false;
     this.createState=false;
-
     this.productoeditar=null;
-    this.productonuevo=null,
+  //  this.productonuevo=null,
+    this.productonuevo={nombre:'',compra:0,cantidad:0,venta:0,storage:''};
     this.load_new_file=null;
     this.urlImage=null;
+    this.up_file=false;
+
   }
   onGuardar(){
     console.log(this.productoeditar);
