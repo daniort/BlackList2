@@ -388,6 +388,9 @@
 
           <footer class="modal-card-foot">
             <!-- Boton Active-->
+=======
+          <footer class="modal-card-foot">
+            <!-- Boton Active-->
             <a  class=" is-acciones card-link" (click)="onCreateYa($event)"
             *ngIf="cantidad.valid  && venta.valid && compra.valid && productonuevo.venta > productonuevo.compra
             && urlImage | async; else bno" id="edit">Guardar</a>
