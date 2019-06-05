@@ -252,6 +252,7 @@ export class DeudoresComponent implements OnInit {
     this.historianueva.idUser=this.getUserbyID(this.DeudasService.getUserActive());
     this.HistorialService.addHis(this.historianueva);
     //enviar datos a bitacora
+    this.crearState=null;
     this.onCancel();
     this.totalDeudas=0;
     this.onMensajeCreador();

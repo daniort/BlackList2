@@ -6,7 +6,7 @@ https://apptiendabd.firebaseapp.com/deudores-->
         <div class="column is-8 is-offset-2 ">
 
        <header class="modal-card-head">
-         <p class="modal-card-title">Autentificate</p>
+         <p class="modal-card-title">Auntentificar</p>
        </header>
        <section class="modal-card-body has-text-left">
 
@@ -19,6 +19,9 @@ https://apptiendabd.firebaseapp.com/deudores-->
              <datalist id="listauser"  *ngFor="let nombre of namelist ">
                <option value="{{nombre}}"  *ngFor="let nombre of namelist ">{{nombre}}</option>
              </datalist>
+
+               <div class="help is-danger"  *ngIf="user"><i class="fas fa-exclamation-circle"></i>Este Usuario No Esta Registrado.</div>
+
            </div>
          </div>
 
@@ -27,21 +30,38 @@ https://apptiendabd.firebaseapp.com/deudores-->
            <div class="control">
                <input [(ngModel)]="contrasena"
                type="password" class="input"
-             minlength="4" maxlength="6" required>
+             required name="passb" id="passb">
+             <div class="help is-danger"  *ngIf="pass"><i class="fas fa-exclamation-circle"></i>Contraseña Inconrrecta.</div>
+
            </div>
          </div>
 
          <button class="button is-block is-primary is-large is-fullwidth"
          (click)="onLogin($event)">Entrar</button>
 
+         <div  *ngIf="perm" class="notification">
+          <button (click)="perm=null"class="delete"></button>
+          <i class="fas fa-exclamation-triangle"></i>No tienes Permiso de Entrar. Contacta al Administrador.
+        </div>
+        <div  *ngIf="vacio" (click)="vacio=null" class="notification is-danger">
+         <button (click)="vacio=null"class="delete"></button>
+         <i class="fas fa-exclamation-triangle"></i> Necesitas Rellenar el Fomularios para poder entrar.
+       </div>
+
+
 
         </section>
        <footer class="modal-card-foot ">
          <p class="has-text-grey ">
                                  <a (click)="registrar=true">Registrate</a> &nbsp;·&nbsp;
-                                 <a href="#">Olvidé mi Contraseña</a> &nbsp;·&nbsp;
+                                 <a (click)="olvidado=true" >Olvidé mi Contraseña</a> &nbsp;·&nbsp;
           </p>
+
        </footer>
+       <div  *ngIf="olvidado" (click)="olvidado=null" class="notification is-warning">
+        <button (click)="olvidado=null"class="delete"></button>
+        <i class="fas fa-exclamation-triangle"></i>Contacta al Administrador.
+      </div>
 
   </div>
     </div>
@@ -56,7 +76,7 @@ https://apptiendabd.firebaseapp.com/deudores-->
         <div class="column is-8 is-offset-2">
 
        <header class="modal-card-head">
-         <p class="modal-card-title">Registro de Usuarios</p>
+         <p class="modal-card-title">Registrar Usuario</p>
        </header>
        <section class="modal-card-body has-text-left">
 

@@ -20,7 +20,7 @@
     </div>
   </div>
   <!-- contenido -->
-  <div class="is-multiline columns productoitem">
+  <div *ngIf="!filtroActive" class="is-multiline columns productoitem">
     <div class="column is-one-quarter-desktop is-one-third-tablet" *ngFor="let product of productoitem;let i=index">
       <div class="list-item">
 
@@ -62,6 +62,72 @@
             <a  class="card-link" (click)="onEditProducto($event, product)" id="edit">Modificar</a>
             <a  class="card-link" (click)="onDeleteProducto($event, product.id)" id="dele">Eliminar</a>
           </footer>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- contenido con filtro -->
+  <div *ngIf="filtroActive && !filtroVacio" class="is-multiline columns productoitem">
+    <div class="column is-one-quarter-desktop is-one-third-tablet" *ngFor="let product of productoitemFilter;let i=index">
+      <div class="list-item">
+
+        <div class="card">
+          <!-- Cabezera-->
+          <header class="card-header">
+            <p class="card-header-title">
+              {{product.nombre}}
+            </p>
+          </header>
+          <div class="card-image">
+           <figure class="image is-16by9"><img src="{{product.storage}}" id="img_products" alt=""> </figure>
+          </div>
+
+          <!-- Contenido-->
+          <div class="card-content">
+            <div class="content">
+              <div class="costo">
+                  <div class="columns">
+                        <p>Precio de Compra: ${{ product.compra }}</p>
+                  </div>
+                  <div class="columns">
+                        <p>Precio de Venta: ${{product.venta}}</p>
+                  </div>
+              </div>
+              <br>
+              <time datetime="2016-1-1"  *ngIf="product.cantidad >= 1 ; else aviso">
+                <strong>{{product.cantidad}}</strong> pzs. Restantes.
+              </time>
+              <ng-template #aviso>
+                <time datetime="2016-1-1">
+                  <strong id="agotado">{{product.cantidad}}</strong> pzs. Restantes.
+                </time>
+              </ng-template>
+          </div>
+
+          </div>
+          <footer class="card-footer" >
+            <a  class="card-link" (click)="onEditProducto($event, product)" id="edit">Modificar</a>
+            <a  class="card-link" (click)="onDeleteProducto($event, product.id)" id="dele">Eliminar</a>
+          </footer>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- contenido vacio -->
+  <div *ngIf="filtroActive && filtroVacio" class="is-multiline columns productoitem">
+    <div class="column is-one-quarter-desktop is-one-third-tablet">
+      <div class="list-item">
+
+        <div class="card">
+          <!-- Cabezera-->
+          <header class="card-header">
+            <p class="card-header-title">
+              Sin Resultados
+            </p>
+          </header>
         </div>
 
       </div>
@@ -178,8 +244,10 @@
                     </div>
                   </div>
                 <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
+                <p  *ngIf="load_new_file && !urlImage" >Subiendo Archivo...</p>
+                <progress *ngIf="load_new_file && !urlImage" class="progress is-primary" max="100">0%</progress>
                 <ng-template #barten>
-                  <progress [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
+                  <progress [style.visibility]="(uploadPercent == 0)"
                     class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">
                   </progress>
                 </ng-template>
@@ -188,22 +256,31 @@
               </div>
             </div>
         </section>
-        <footer class="modal-card-foot">
-          <section id="bnt" *ngIf="!load_new_file">
-            <a class="card-link" (click)="onGuardar($event)" id="edit"
-              *ngIf="cantidad.valid  && venta.valid && compra.valid && productoeditar.cantidad >= 0 && productoeditar.compra >= 0 && productoeditar.venta > productoeditar.compra; else ncarga ">Guardar</a>
-          </section>
-          <section *ngIf="load_new_file">
-            <section id="bnt" *ngIf="urlImage;else ncarga">
-              <a  class="card-link" (click)="onGuardar($event)" id="edit"
-                *ngIf="cantidad.valid  && venta.valid && compra.valid && productoeditar.cantidad >= 0  && productoeditar.compra >= 0 && productoeditar.venta > productoeditar.compra; else ncarga ">Guardar</a>
-            </section>
-          </section>
 
-          <ng-template #ncarga>
-            <a class="card-link" disable id="edit">Guardar</a>
+        <footer class="modal-card-foot" *ngIf="load_new_file">
+          <!-- Boton Active-->
+          <a  class=" is-acciones card-link" (click)="onGuardar($event)"
+          *ngIf="cantidad.valid  && venta.valid && compra.valid && productoeditar.cantidad >= 0 && productoeditar.compra >= 0 && productoeditar.venta > productoeditar.compra
+          && urlImage | async; else bneo" id="edit">Guardar</a>
+          <ng-template #bneo>
+            <!-- Boton Disabled-->
+            <!-- debe mostrar que esta cargando el archivo-->
+            <a class="button is-loading">Loading</a>
           </ng-template>
-          <a class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
+          <!-- Boton Cancel-->
+          <a  class=" is-active-cancel card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
+        </footer>
+        <footer  *ngIf="!load_new_file" class="modal-card-foot">
+          <!-- Boton Active-->
+          <a  class=" is-acciones card-link" (click)="onGuardar($event)"
+          *ngIf="cantidad.valid  && venta.valid && compra.valid && productoeditar.cantidad >= 0 && productoeditar.compra >= 0 && productoeditar.venta > productoeditar.compra
+          ; else bneao" id="edit">Guardar</a>
+          <ng-template #bneao>
+            <!-- Boton Disabled-->
+            <a  class="is-disable card-link"  disabled>Guardar</a>
+          </ng-template>
+          <!-- Boton Cancel-->
+          <a  class=" is-active-cancel card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
         </footer>
     </div>
   </div>

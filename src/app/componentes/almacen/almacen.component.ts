@@ -40,6 +40,7 @@ productonuevo:ProductoInterface={
 
       resultadosIguales:boolean;
 myForm: FormGroup;
+progreso:number=20;
 
   constructor(public AlmacenService: AlmacenService,
               private storage: AngularFireStorage,
@@ -52,8 +53,10 @@ myForm: FormGroup;
   urlImage: Observable<string>;
 
   ngOnInit() {
+
     this.inicio=true;
     this.load_new_file=null;
+    this.urlImage=null;
     this.AlmacenService.getProducts().subscribe(producto =>{
       this.productoitem=producto;
       for (let unaDeuda of this.productoitem) {
@@ -92,7 +95,7 @@ myForm: FormGroup;
 
         }else{
           //Vacio
-          this.filtroActive=false;
+          this.filtroActive=true;
           this.filtroVacio=true;
           this.productoitemAlll=this.getDeudasAll();
         }
@@ -153,7 +156,6 @@ myForm: FormGroup;
   }
   return  myArray
 }
-
   onDeleteProducto(event, id:string){
   this.deleteState= true;
   this.idToDelete=id;
@@ -179,17 +181,19 @@ myForm: FormGroup;
     }
     this.AlmacenService.updateProduct(this.productoeditar);
     this.editState= false;
+    this.load_new_file=null;
   }
   onCreate(){
    this.createState=true;
   }
   onCreateYa(){
     console.log(this.urlImage);
-    this.productonuevo.storage=this.inputImageUser.nativeElement.value;
-    this.AlmacenService.addProduct(this.productonuevo);
     this.createState=false;
     this.productoeditar=null;
     this.productonuevo=null;
     this.urlImage=null;
+    this.load_new_file=null;
+    this.productonuevo.storage=this.inputImageUser.nativeElement.value;
+    this.AlmacenService.addProduct(this.productonuevo);
   }
 }
