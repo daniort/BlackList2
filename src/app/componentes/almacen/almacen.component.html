@@ -287,7 +287,6 @@
   <!-- Modal Crear -->
   <div *ngIf="createState" class="pupConfirmer">
       <div class="modal-card">
-
           <header class="modal-card-head">
             <p class="card-header-title">
               <i class="fas fa-box-open"></i>Nuevo Producto</p>
@@ -307,6 +306,11 @@
                           class="input"  placeholder="NutriLeche"
                           minlength="1" maxlength="40" required>
                       </p>
+                      <div class="help" *ngIf="nombre.touched">
+                        <div class="help is-danger" *ngIf="productonuevo.nombre == ''"><i class="fas fa-exclamation-circle"></i>El Nombre es Requerido.</div>
+
+
+                      </div>
                     </div>
 
                     <div class="field">
@@ -316,8 +320,9 @@
                         [(ngModel)]="productonuevo.cantidad" #cantidad="ngModel" name="cantidad"
                         type="number" class="input"  placeholder="0"  minlength="1" maxlength="5" required>
                       </p>
-                      <div class="help" *ngIf="cantidad.touched && !cantidad.valid">
-                        <div class="help is-danger" *ngIf="productonuevo.cantidad <= 0"><i class="fas fa-exclamation-circle"></i>Este Campo es Obligatorio.</div>
+                      <div class="help" *ngIf="cantidad.touched">
+                        <div class="help is-danger" *ngIf="productonuevo.cantidad < 0"><i class="fas fa-exclamation-circle"></i>El Valor no debe ser Negativo.</div>
+                        <div class="help is-danger" *ngIf="productonuevo.cantidad == 0"><i class="fas fa-exclamation-circle"></i>El Valor es Requerido.</div>
                         <div class="help is-warning" *ngIf="productonuevo.cantidad > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
                       </div>
                     </div>
@@ -334,8 +339,9 @@
                         [(ngModel)]="productonuevo.compra" #compra="ngModel" name="compra"
                          minlength="1" maxlength="5" required>
                       </p>
-                      <div class="help" *ngIf="compra.touched && !compra.valid">
-                        <div class="help is-danger" *ngIf="productonuevo.compra < 1"><i class="fas fa-exclamation-circle"></i>Este Campo es Obligatorio.</div>
+                      <div class="help" *ngIf="compra.touched">
+                        <div class="help is-danger" *ngIf="productonuevo.compra == 0"><i class="fas fa-exclamation-circle"></i>Este Campo es Obligatorio.</div>
+                        <div class="help is-danger" *ngIf="productonuevo.compra < 0"><i class="fas fa-exclamation-circle"></i>El Valor no debe ser Negativo.</div>
                         <div class="help is-warning" *ngIf="productonuevo.compra > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
                        </div>
                     </div>
@@ -346,9 +352,10 @@
                         [(ngModel)]="productonuevo.venta" #venta="ngModel" name="venta"
                          minlength="1" maxlength="5" required>
                       </p>
-                      <div class="help" *ngIf="venta.touched && !venta.valid">
+                      <div class="help" *ngIf="venta.touched">
                         <div class="help is-danger" *ngIf="productonuevo.venta <= productonuevo.compra"><i class="fas fa-exclamation-circle"></i>Este Campo debe ser mayor al Precio de Compra.</div>
                         <div class="help is-warning" *ngIf="productonuevo.venta > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
+                        <div class="help is-danger" *ngIf="productonuevo.venta < 1"><i class="fas fa-exclamation-circle"></i>Este valor debe ser mayor a 0</div>
                        </div>
                     </div>
                   </div>
