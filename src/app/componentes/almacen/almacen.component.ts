@@ -41,7 +41,9 @@ productonuevo:ProductoInterface={
   up_file:boolean=false;
   myForm: FormGroup;
   progreso:number=20;
-
+  error_formato:boolean=false;
+  no_foto:boolean=false;
+  no_campo_comple:boolean=false;
   constructor(public AlmacenService: AlmacenService,
               private storage: AngularFireStorage,
               private fb:FormBuilder) {
@@ -108,13 +110,61 @@ productonuevo:ProductoInterface={
   }
 
   onUpload(e){
-       const id = Math.random().toString(36).substring(2);
-       const file = e.target.files[0];
-       const filePath = `products/profile_${id}`;
-       const ref = this.storage.ref(filePath);
-       const task = this.storage.upload(filePath, file);
-       this.uploadPercent = task.percentageChanges();
-       task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
+    console.log("onuplad");
+    let img:any = e.target;
+    if(img.files.length > 0){
+      console.log(img.files[0].type);
+      let tipo = img.files[0].type
+      if(tipo == "image/jpeg" || tipo == "image/jpg" || tipo == "image/png"){
+        console.log("es una imagen");
+        this.no_foto=false;
+        this.up_file=true;
+
+        const id = Math.random().toString(36).substring(2);
+        const file = e.target.files[0];
+        const filePath = `products/profile_${id}`;
+        const ref = this.storage.ref(filePath);
+        const task = this.storage.upload(filePath, file);
+        this.uploadPercent = task.percentageChanges();
+        task.snapshotChanges().pipe(finalize(() => this.urlImage = ref.getDownloadURL())).subscribe();
+      }else{
+        console.log("no es un aimagen")
+        this.error_formato=true;
+        //mensaje de que la extencion es incorrecta
+      }
+
+    }
+  }
+  onNada(){
+    if (this.urlImage == null){
+      //console.log("te falta foto");
+      this.no_foto=true;
+    }else{
+
+      //console.log("ento al if");
+        this.no_campo_comple=true;
+        const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+        this.no_campo_comple=false;
+        //console.log("salio del while");
+
+
+    }
+
+
+  }
+  sleep() {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+      if ((new Date().getTime() - start) > 9000){
+        break;
+      }
+    }
+  }
+  delay(ms: number)
+  {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
   getDeudasAll():string[]{
     let myArray3=[];
@@ -172,7 +222,6 @@ productonuevo:ProductoInterface={
     this.load_new_file=null;
     this.urlImage=null;
     this.up_file=false;
-
   }
   onGuardar(){
     console.log(this.productoeditar);
@@ -187,6 +236,7 @@ productonuevo:ProductoInterface={
    this.createState=true;
   }
   onCreateYa(){
+    console.log(this.impsec());
     console.log(this.urlImage);
     this.createState=false;
     this.productoeditar=null;
@@ -194,5 +244,8 @@ productonuevo:ProductoInterface={
     this.productonuevo.storage=this.inputImageUser.nativeElement.value;
     this.AlmacenService.addProduct(this.productonuevo);
     this.onCancel();
+  }
+  impsec(){
+
   }
 }

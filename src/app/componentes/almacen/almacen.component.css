@@ -176,3 +176,19 @@ color: red;
 .progress.is-primary:indeterminate {
   background-image: linear-gradient(to right, #00d1b2 30%, #dbdbdb 30%);
 }
+.message1{
+   transition: all .5s;
+    animation-delay: 1.5s;
+    animation-duration: 1s;
+    animation-name: slidein;
+}
+@keyframes slidein {
+  from {
+    opacity: 1
+  }
+  to {
+  opacity: 0;
+  font-size: 2pt;
+  width: 10%;
+  }
+}

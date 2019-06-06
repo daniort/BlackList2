@@ -368,8 +368,9 @@
                       <div class="control">
                         <div class="file has-name">
                           <label class="file-label">
-                             <input class="file-input" type="file" accept=".png, .jpg" name="resume" (change)="onUpload($event)">
-                             <span (click)="up_file=true"class="file-cta">
+                             <input class="file-input" type="file"
+                             accept="image/*" name="file" (change)="onUpload($event)">
+                             <span class="file-cta">
                                <span class="file-icon">
                                  <i class="fas fa-upload"></i>
                                </span>
@@ -378,6 +379,7 @@
                                </span>
                              </span>
                              <input #imageUser type="hidden" [value]="urlImage | async">
+
                              <p *ngIf="up_file &&!urlImage">Subiendo Archivo...</p>
                            </label><br>
                         </div>
@@ -391,7 +393,20 @@
                     </ng-template>
                     </div>
                   </div>
+
                 </div>
+                <div  *ngIf="error_formato" (click)="error_formato=null" class="notification is-danger">
+                 <button (click)="error_formato=null"class="delete"></button>
+                 <i class="fas fa-exclamation-triangle"></i>Elige un archivo de imagen correcto. (.jpg/.png)
+               </div>
+               <div  *ngIf="no_foto" (click)="no_foto=null" class="notification is-warning">
+                <button (click)="no_foto=null"class="delete"></button>
+                <i class="fas fa-exclamation-triangle"></i>Debes Subir una imagen/Foto del Producto. (.jpg/.png)
+              </div>
+              <div  *ngIf="no_campo_comple" (click)="no_campo_comple=null" class="notification is-warning">
+               <button (click)="no_campo_comple=null"class="delete"></button>
+               <i class="fas fa-exclamation-triangle"></i>Todos los campos son requeridos.
+             </div>
 
           </section>
 
@@ -401,7 +416,7 @@
             && urlImage | async; else bno" id="edit">Guardar</a>
             <ng-template #bno>
               <!-- Boton Disabled-->
-              <a class="is-disable card-link" disabled>Guardar</a>
+              <a class="is-disable card-link" (click)="onNada($event)" disabled>Guardar</a>
               <!--<a class="button is-loading">Loading</a> -->
             </ng-template>
             <a  class=" is-active-cancel card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
