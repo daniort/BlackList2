@@ -88,12 +88,13 @@ export class DeudoresComponent implements OnInit {
                             this.namelist=[];
                              }
   ngOnInit() {
-    //console.log(this.id);
+
     this.inicio=true;
-    this.resultadosBitacora=false;
-    this.resultadosPagados=false;
     this.historial=false;
     this.deudaspagadas=false;
+    this.resultadosBitacora=false;
+    this.resultadosPagados=false;
+
     this.DeudaspagadasService.getDeudas().subscribe(deuda =>{
       this.deudoritemPagado=deuda;
     });
@@ -251,6 +252,7 @@ export class DeudoresComponent implements OnInit {
     this.historianueva.idUser=this.getUserbyID(this.DeudasService.getUserActive());
     this.HistorialService.addHis(this.historianueva);
     //enviar datos a bitacora
+    this.crearState=null;
     this.onCancel();
     this.totalDeudas=0;
     this.onMensajeCreador();

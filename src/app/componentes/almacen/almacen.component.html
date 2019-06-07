@@ -1,19 +1,26 @@
-
 <div class="container ">
 
-<!-- botones -->
-<div class="columns botones" >
-  <div class="column is-four-fifths">
-      <input class="input is-primary buscar inputs" [(ngModel)]="searchText" type="text" placeholder="Buscar en Almacén" id="">
+  <!-- botones -->
+  <div class="columns  is-gapless botones" >
+    <div class="column is-three-quarters form-group">
+    <div *ngIf="inicio" [formGroup]="myForm">
+        <input  list="listacolores" formControlName="buscar"
+          class="input is-primary buscar inputs" placeholder="Buscar Producto en la Lista">
+
+              <datalist id="listacolores"  *ngFor="let nombre of namelist ">
+                <option value="{{nombre}}"  *ngFor="let nombre of namelist ">{{nombre}}</option>
+              </datalist>
+    </div>
+    </div>
+
+    <div class="column" id="bnt_new_pro">
+      <button class="button is-primary inputs" (click)="createState=!createState" type="submit">
+        <i class="fas fa-plus"></i>
+         Agregar Producto</button>
+    </div>
   </div>
-  <div class="column">
-    <button class="button is-primary inputs" (click)="onCreate($event)" type="submit">
-      <i class="fas fa-plus"></i>
-       Agregar Producto</button>
-  </div>
-</div>
   <!-- contenido -->
-  <div class="is-multiline columns productoitem">
+  <div *ngIf="!filtroActive" class="is-multiline columns productoitem">
     <div class="column is-one-quarter-desktop is-one-third-tablet" *ngFor="let product of productoitem;let i=index">
       <div class="list-item">
 
@@ -25,7 +32,55 @@
             </p>
           </header>
           <div class="card-image">
-                    <a href="#"><figure class="image is-16by9"><img src="./assets/images/ima.png" id="img_products" alt=""> </figure></a>
+           <figure class="image is-16by9"><img src="{{product.storage}}" id="img_products" alt=""> </figure>
+          </div>
+
+          <!-- Contenido-->
+          <div class="card-content">
+            <div class="content">
+              <div class="costo">
+                  <div class="columns">
+                        <p>Precio de Compra: ${{ product.compra }}</p>
+                  </div>
+                  <div class="columns">
+                        <p>Precio de Venta: ${{product.venta}}</p>
+                  </div>
+              </div>
+              <br>
+              <time datetime="2016-1-1"  *ngIf="product.cantidad >= 1 ; else aviso">
+                <strong>{{product.cantidad}}</strong> pzs. Restantes.
+              </time>
+              <ng-template #aviso>
+                <time datetime="2016-1-1">
+                  <strong id="agotado">{{product.cantidad}}</strong> pzs. Restantes.
+                </time>
+              </ng-template>
+          </div>
+
+          </div>
+          <footer class="card-footer" >
+            <a  class="card-link" (click)="onEditProducto($event, product)" id="edit">Modificar</a>
+            <a  class="card-link" (click)="onDeleteProducto($event, product.id)" id="dele">Eliminar</a>
+          </footer>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- contenido con filtro -->
+  <div *ngIf="filtroActive && !filtroVacio" class="is-multiline columns productoitem">
+    <div class="column is-one-quarter-desktop is-one-third-tablet" *ngFor="let product of productoitemFilter;let i=index">
+      <div class="list-item">
+
+        <div class="card">
+          <!-- Cabezera-->
+          <header class="card-header">
+            <p class="card-header-title">
+              {{product.nombre}}
+            </p>
+          </header>
+          <div class="card-image">
+           <figure class="image is-16by9"><img src="{{product.storage}}" id="img_products" alt=""> </figure>
           </div>
 
           <!-- Contenido-->
@@ -61,144 +116,313 @@
     </div>
   </div>
 
+  <!-- contenido vacio -->
+  <div *ngIf="filtroActive && filtroVacio" class="is-multiline columns productoitem">
+    <div class="column is-one-quarter-desktop is-one-third-tablet">
+      <div class="list-item">
 
-<div *ngIf="deleteState" class="pupConfirmer">
+        <div class="card">
+          <!-- Cabezera-->
+          <header class="card-header">
+            <p class="card-header-title">
+              Sin Resultados
+            </p>
+          </header>
+        </div>
 
-  <div class="card content-modal-delete">
-      <header class="card-header">
-        <p class="card-header-title">
-          Eliminar Producto
-        </p>
-        <div class="navbar-end">
-          <span class="icon">
-            <i class="fas fa-times" (click)="onCancel($event)"></i>
-          </span>
-        </div>
-      </header>
-      <div class="card-content">
-        <div class="content">
-          ¿Estas seguro que quieres eliminar este producto?
-          <br>
-        </div>
       </div>
-      <footer class="card-footer">
-        <a  class="card-link" (click)="onDeleteConfirmer($event)" id="dele">Si, Eliminar</a>
-        <a  class="card-link" (click)="onCancel($event)" id="edit">Cancelar</a>
-      </footer>
     </div>
+  </div>
 
-</div>
+  <!-- Modal Delete -->
+  <div *ngIf="deleteState" class="pupConfirmer">
 
-<div *ngIf="editState" class="pupConfirmer">
+    <div class="modal-card">
 
-    <div class="card content-modal-edit">
-        <header class="card-header">
-          <p class="card-header-title">
-            <i class="fas fa-marker"></i>
-            Editar Producto
-          </p>
-          <div class="navbar-end">
-            <span class="icon">
-              <i class="fas fa-times" (click)="onCancel($event)"></i>
-            </span>
-          </div>
-        </header>
-        <div class="card-content">
-          <div class="content">
-            <form class="" >
-            <div class="field">
-              <label  class="label">Nombre </label>
-              <div class="control">
-                  <input [(ngModel)]="productoeditar.nombre" #nombre="ngModel" name="nombre"  type="email" class="input"  placeholder="Nombre" value="{{productoeditar.name}}">
-              </div>
-            </div>
-            <div class="field">
-              <label  class="label">Piezas Adquiridas</label>
-              <div class="control">
-                <input [(ngModel)]="productoeditar.cantidad" #cantidad="ngModel" name="cantidad" type="number" class="input"  placeholder="0.00" value="{{productoeditar.cantidad}}">
-              </div>
-            </div>
+      <header class="modal-card-head">
+        <p class="card-header-title">
+          <i class="fas fa-box"></i>Eliminar Producto</p>
+          <button class="delete" aria-label="close" (click)="onCancel($event)"></button>
+      </header>
+      <section class="modal-card-body" id="content-modal-delete">
+        ¿Estas seguro que quieres <strong id="danger-text">eliminar</strong> este producto?
+      </section>
+      <footer class="modal-card-foot">
+          <a  class="card-link" (click)="onDeleteConfirmer($event)" id="dele">Si, Eliminar</a>
+          <a  class="card-link" (click)="onCancel($event)" id="edit">Cancelar</a>
+      </footer>
 
-            <div class="field">
-              <label  class="label">Precio de Compra</label>
-              <div class="control">
-                <input [(ngModel)]="productoeditar.compra" #compra="ngModel" name="compra" type="number" class="input" placeholder="$000.00" value="{{productoeditar.compra}}">
-              </div>
-            </div>
-
-            <div class="field">
-              <label  class="label">Precio de Venta</label>
-              <div class="control">
-                <input [(ngModel)]="productoeditar.venta" #venta="ngModel" name="venta" type="number" class="input" placeholder="$000.00" value="{{productoeditar.venta}}">
-              </div>
-            </div>
-            </form>
-          </div>
-        </div>
-        <footer class="card-footer">
-          <a  class="card-link" (click)="onGuardar($event)" id="edit">Guardar</a>
-          <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
-        </footer>
       </div>
 
-</div>
+  </div>
+  <!-- Modal Editar -->
+  <div *ngIf="editState" class="pupConfirmer">
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="card-header-title">
+          <i class="fas fa-box"></i>Editar Producto</p>
+          <button class="delete" aria-label="close" (click)="onCancel($event)"></button>
+      </header>
+        <section class="modal-card-body">
 
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left">
+                    <label for=""><strong>Nombre del Producto:</strong></label>
+                    <input [(ngModel)]="productoeditar.nombre" #nombre="ngModel" name="nombre"  type="email" class="input"  placeholder="Nombre" value="{{productoeditar.name}}">                </p>
+                </div>
 
-<div *ngIf="createState" class="pupConfirmer">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left has-icons-right">
+                    <label for=""><strong>Cantidad Adquirida:</strong></label>
+                    <input class="input is-success"
+                    [(ngModel)]="productoeditar.cantidad" #cantidad="ngModel" name="cantidad"
+                    type="number" class="input"  placeholder="0"  minlength="1" maxlength="5" required>
+                  </p>
+                  <div class="help" *ngIf="cantidad.touched && !cantidad.valid">
+                    <div class="help is-danger" *ngIf="productoeditar.cantidad < 0"><i class="fas fa-exclamation-circle"></i>Valor no Soportado.</div>
+                    <div class="help is-warning" *ngIf="productoeditar.cantidad > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
+                  </div>
+                </div>
 
-    <div class="card content-modal-crea">
-        <header class="card-header">
-          <p class="card-header-title">
-            <i class="fas fa-box-open"></i>
-            Nuevo Producto
-          </p>
-          <div class="navbar-end">
-            <span class="icon">
-              <i class="fas fa-times" (click)="onCancel($event)"></i>
-            </span>
-          </div>
-        </header>
-        <div class="card-content">
-          <div class="content">
-            <form class="" >
-            <div class="field">
-              <label  class="label">Nombre </label>
-              <div class="control">
-                  <input
-                  [(ngModel)]="productonuevo.nombre"
-                  #nombre="ngModel" name="nombre"  type="email"
-                  class="input"  placeholder="NutriLeche" >
-              </div>
-            </div>
-            <div class="field">
-              <label  class="label">Piezas Adquiridas</label>
-              <div class="control">
-                <input [(ngModel)]="productonuevo.cantidad" #cantidad="ngModel" name="cantidad" type="number" class="input"  placeholder="0.00">
-              </div>
-            </div>
-
-            <div class="field">
-              <label  class="label">Precio de Compra</label>
-              <div class="control">
-                <input [(ngModel)]="productonuevo.compra" #compra="ngModel" name="compra" type="number" class="input" placeholder="$000.00" >
               </div>
             </div>
 
-            <div class="field">
-              <label  class="label">Precio de Venta</label>
-              <div class="control">
-                <input [(ngModel)]="productonuevo.venta" #venta="ngModel" name="venta" type="number" class="input" placeholder="$000.00" >
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left">
+                    <label for=""><strong>Precio de Compra</strong></label>
+                    <input class="input" type="number" placeholder="Precio Compra"
+                    [(ngModel)]="productoeditar.compra" #compra="ngModel" name="compra"
+                     minlength="1" maxlength="5" required>
+                  </p>
+                  <div class="help" *ngIf="compra.touched && !compra.valid">
+                    <div class="help is-danger" *ngIf="productoeditar.compra < 1"><i class="fas fa-exclamation-circle"></i>Este Valor es Incorrecto.</div>
+                    <div class="help is-warning" *ngIf="productoeditar.compra > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
+                   </div>
+                </div>
+                <div class="field">
+                  <p class="control is-expanded has-icons-left has-icons-right">
+                    <label for=""><strong>Precio de Venta</strong></label>
+                    <input class="input is-success" type="number" placeholder="Precio Venta"
+                    [(ngModel)]="productoeditar.venta" #venta="ngModel" name="venta"
+                     minlength="1" maxlength="5" required>
+                  </p>
+                  <div class="help" *ngIf="venta.touched && !venta.valid">
+                    <div class="help is-danger" *ngIf="productoeditar.venta <= productonuevo.compra"><i class="fas fa-exclamation-circle"></i>Este Campo debe ser mayor al Precio de Compra.</div>
+                    <div class="help is-warning" *ngIf="productoeditar.venta > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
+                   </div>
+                </div>
               </div>
             </div>
-            </form>
-          </div>
-        </div>
-        <footer class="card-footer">
-          <a  class="card-link" (click)="onCreateYa($event)" id="edit">Guardar</a>
-          <a  class="card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
+
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field">
+                  <figure class="image is-128x128">
+                    <img src="{{productoeditar.storage}}">
+                  </figure>
+                </div>
+
+                <div class="field">
+                  <div class="control">
+                    <div class="file has-name">
+                      <label class="file-label">
+                         <input class="file-input"  (click)="load_new_file=true" type="file" accept=".png, .jpg" name="resume" (change)="onUpload($event)">
+                         <span class="file-cta">
+                           <span class="file-icon">
+                             <i class="fas fa-upload"></i>
+                           </span>
+                           <span class="file-label" (click)="load_new_file=true">
+                            Selecciona Archivo
+                           </span>
+                         </span>
+                         <input #imageUser type="hidden" (click)="load_new_file=true" [value]="urlImage | async">
+                       </label><br>
+                    </div>
+                  </div>
+                <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
+                <p  *ngIf="load_new_file && !urlImage" >Subiendo Archivo...</p>
+                <progress *ngIf="load_new_file && !urlImage" max="100">0%</progress>
+                <ng-template #barten>
+                  <progress [style.visibility]="(uploadPercent == 0)"
+                    class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">
+                  </progress>
+                </ng-template>
+                </div>
+
+              </div>
+            </div>
+        </section>
+
+        <footer class="modal-card-foot" *ngIf="load_new_file">
+          <!-- Boton Active-->
+          <a  class=" is-acciones card-link" (click)="onGuardar($event)"
+          *ngIf="cantidad.valid  && venta.valid && compra.valid && productoeditar.cantidad >= 0 && productoeditar.compra >= 0 && productoeditar.venta > productoeditar.compra
+          && urlImage | async; else bneo" id="edit">Guardar</a>
+          <ng-template #bneo>
+            <!-- Boton Disabled-->
+            <!-- debe mostrar que esta cargando el archivo-->
+            <a class="button is-loading">Loading</a>
+          </ng-template>
+          <!-- Boton Cancel-->
+          <a  class=" is-active-cancel card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
         </footer>
-      </div>
+        <footer  *ngIf="!load_new_file" class="modal-card-foot">
+          <!-- Boton Active-->
+          <a  class=" is-acciones card-link" (click)="onGuardar($event)"
+          *ngIf="cantidad.valid  && venta.valid && compra.valid && productoeditar.cantidad >= 0 && productoeditar.compra >= 0 && productoeditar.venta > productoeditar.compra
+          ; else bneao" id="edit">Guardar</a>
+          <ng-template #bneao>
+            <!-- Boton Disabled-->
+            <a  class="is-disable card-link"  disabled>Guardar</a>
+          </ng-template>
+          <!-- Boton Cancel-->
+          <a  class=" is-active-cancel card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
+        </footer>
+    </div>
+  </div>
+  <!-- Modal Crear -->
+  <div *ngIf="createState" class="pupConfirmer">
+      <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="card-header-title">
+              <i class="fas fa-box-open"></i>Nuevo Producto</p>
+              <button class="delete" aria-label="close" (click)="onCancel($event)"></button>
+          </header>
 
-</div>
+          <section class="modal-card-body">
+
+                <div class="field is-horizontal">
+                  <div class="field-body">
+
+                    <div class="field">
+                      <p class="control is-expanded has-icons-left">
+                        <label for=""><strong>Nombre del Producto:</strong></label>
+                        <input class="input" [(ngModel)]="productonuevo.nombre"
+                          #nombre="ngModel" name="nombre"  type="text"
+                          class="input"  placeholder="NutriLeche"
+                          minlength="1" maxlength="40" required>
+                      </p>
+                      <div class="help" *ngIf="nombre.touched">
+                        <div class="help is-danger" *ngIf="productonuevo.nombre == ''"><i class="fas fa-exclamation-circle"></i>El Nombre es Requerido.</div>
+
+
+                      </div>
+                    </div>
+
+                    <div class="field">
+                      <p class="control is-expanded has-icons-left has-icons-right">
+                        <label for=""><strong>Cantidad Adquirida:</strong></label>
+                        <input class="input is-success"
+                        [(ngModel)]="productonuevo.cantidad" #cantidad="ngModel" name="cantidad"
+                        type="number" class="input"  placeholder="0"  minlength="1" maxlength="5" required>
+                      </p>
+                      <div class="help" *ngIf="cantidad.touched">
+                        <div class="help is-danger" *ngIf="productonuevo.cantidad < 0"><i class="fas fa-exclamation-circle"></i>El Valor no debe ser Negativo.</div>
+                        <div class="help is-danger" *ngIf="productonuevo.cantidad == 0"><i class="fas fa-exclamation-circle"></i>El Valor es Requerido.</div>
+                        <div class="help is-warning" *ngIf="productonuevo.cantidad > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="field is-horizontal">
+                  <div class="field-body">
+                    <div class="field">
+                      <p class="control is-expanded has-icons-left">
+                        <label for=""><strong>Precio de Compra</strong></label>
+                        <input class="input" type="number" placeholder="Precio Compra"
+                        [(ngModel)]="productonuevo.compra" #compra="ngModel" name="compra"
+                         minlength="1" maxlength="5" required>
+                      </p>
+                      <div class="help" *ngIf="compra.touched">
+                        <div class="help is-danger" *ngIf="productonuevo.compra == 0"><i class="fas fa-exclamation-circle"></i>Este Campo es Obligatorio.</div>
+                        <div class="help is-danger" *ngIf="productonuevo.compra < 0"><i class="fas fa-exclamation-circle"></i>El Valor no debe ser Negativo.</div>
+                        <div class="help is-warning" *ngIf="productonuevo.compra > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
+                       </div>
+                    </div>
+                    <div class="field">
+                      <p class="control is-expanded has-icons-left has-icons-right">
+                        <label for=""><strong>Precio de Venta</strong></label>
+                        <input class="input is-success" type="number" placeholder="Precio Venta"
+                        [(ngModel)]="productonuevo.venta" #venta="ngModel" name="venta"
+                         minlength="1" maxlength="5" required>
+                      </p>
+                      <div class="help" *ngIf="venta.touched">
+                        <div class="help is-danger" *ngIf="productonuevo.venta <= productonuevo.compra"><i class="fas fa-exclamation-circle"></i>Este Campo debe ser mayor al Precio de Compra.</div>
+                        <div class="help is-warning" *ngIf="productonuevo.venta > 99999"><i class="fas fa-exclamation-circle"></i>¿No Crees que es Demasiado?</div>
+                        <div class="help is-danger" *ngIf="productonuevo.venta < 1"><i class="fas fa-exclamation-circle"></i>Este valor debe ser mayor a 0</div>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field is-horizontal">
+                  <div class="field-body">
+                    <div class="field">
+                     <label  class="label">Imagen del Prodcuto</label>
+                      <div class="control">
+                        <div class="file has-name">
+                          <label class="file-label">
+                             <input class="file-input" type="file"
+                             accept="image/*" name="file" (change)="onUpload($event)">
+                             <span class="file-cta">
+                               <span class="file-icon">
+                                 <i class="fas fa-upload"></i>
+                               </span>
+                               <span class="file-label">
+                                Selecciona Archivo
+                               </span>
+                             </span>
+                             <input #imageUser type="hidden" [value]="urlImage | async">
+
+                             <p *ngIf="up_file &&!urlImage">Subiendo Archivo...</p>
+                           </label><br>
+                        </div>
+                      </div>
+                    <progress *ngIf="urlImage | async; else barten" value="100" class="progress is-primary" ></progress>
+                    <progress *ngIf="up_file &&!urlImage" max="100">0%</progress>
+                    <ng-template #barten>
+                      <progress [style.visibility]="(uploadPercent == 0) ? 'hidden' : 'visible'"
+                        class="progress is-danger" role="progressbar" [style.width]="(uploadPercent | async)">
+                      </progress>
+                    </ng-template>
+                    </div>
+                  </div>
+
+                </div>
+                <div  *ngIf="error_formato" (click)="error_formato=null" class="notification is-danger">
+                 <button (click)="error_formato=null"class="delete"></button>
+                 <i class="fas fa-exclamation-triangle"></i>Elige un archivo de imagen correcto. (.jpg/.png)
+               </div>
+               <div  *ngIf="no_foto" (click)="no_foto=null" class="notification is-warning">
+                <button (click)="no_foto=null"class="delete"></button>
+                <i class="fas fa-exclamation-triangle"></i>Debes Subir una imagen/Foto del Producto. (.jpg/.png)
+              </div>
+              <div  *ngIf="no_campo_comple" (click)="no_campo_comple=null" class="notification is-warning">
+               <button (click)="no_campo_comple=null"class="delete"></button>
+               <i class="fas fa-exclamation-triangle"></i>Todos los campos son requeridos.
+             </div>
+
+          </section>
+
+          <footer class="modal-card-foot">
+            <a  class=" is-acciones card-link" (click)="onCreateYa($event)"
+            *ngIf="cantidad.valid  && venta.valid && compra.valid && productonuevo.venta > productonuevo.compra
+            && urlImage | async; else bno" id="edit">Guardar</a>
+            <ng-template #bno>
+              <!-- Boton Disabled-->
+              <a class="is-disable card-link" (click)="onNada($event)" disabled>Guardar</a>
+              <!--<a class="button is-loading">Loading</a> -->
+            </ng-template>
+            <a  class=" is-active-cancel card-link" (click)="onCancel($event)" id="dele">Cancelar</a>
+            </footer>
+
+        </div>
+  </div>
 
 </div>
