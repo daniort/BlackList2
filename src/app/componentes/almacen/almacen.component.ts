@@ -32,7 +32,7 @@ productonuevo:ProductoInterface={
   searchText:string; //eto es para el pipe de busqueda
 
   idfile = Math.random().toString(36).substring(2);
-  inicio:boolean;
+  inicio:boolean=true;
   namelist:string[];
   filtroActive:boolean=null;
   filtroVacio:boolean=null;
@@ -55,8 +55,12 @@ productonuevo:ProductoInterface={
   urlImage: Observable<string>;
 
   ngOnInit() {
+    console.log("ngOnInit");
 
+    this.filtroActive=false;
+    this.filtroVacio=false;
     this.inicio=true;
+
     this.AlmacenService.getProducts().subscribe(producto =>{
       this.productoitem=producto;
       for (let unaDeuda of this.productoitem) {
@@ -106,7 +110,7 @@ productonuevo:ProductoInterface={
         this.productoitemAlll=this.getDeudasAll();
       }
     });
-
+    console.log("endngOnInit");
   }
 
   onUpload(e){

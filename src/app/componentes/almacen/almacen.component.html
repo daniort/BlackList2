@@ -20,7 +20,7 @@
     </div>
   </div>
   <!-- contenido -->
-  <div *ngIf="!filtroActive" class="is-multiline columns productoitem">
+  <div *ngIf="inicio" class="is-multiline columns productoitem">
     <div class="column is-one-quarter-desktop is-one-third-tablet" *ngFor="let product of productoitem;let i=index">
       <div class="list-item">
 
@@ -115,7 +115,6 @@
       </div>
     </div>
   </div>
-
   <!-- contenido vacio -->
   <div *ngIf="filtroActive && filtroVacio" class="is-multiline columns productoitem">
     <div class="column is-one-quarter-desktop is-one-third-tablet">
